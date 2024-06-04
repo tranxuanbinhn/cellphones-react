@@ -17,7 +17,7 @@ function RateStar(props) {
     const {userInfo} = useSelector(state => state.userSignin)
     const product = useSelector(state => state.getProductById.product)
     
-    const countReview = product.reviews.length
+    const countReview = product.reviews.length;
     let averageRate = Math.round(product.reviews.reduce((a,c) => a + c.star, 0) / countReview)
 
     if(userInfo) {

@@ -22,21 +22,75 @@ export const filterProductByRandomField = (infoProduct) => async (dispatch) => {
   // dispatch({ type: "FILTER_PRODUCT_BY_RANDOM_FIELD", payload: infoProduct });
 };
 
-export const getAllProduct = () => async (dispatch) => {
+export const getAllProductByCategoryCode = (page, dir) => async (dispatch) => {
   try {
-    const { data } = await axios.get(`http://localhost:4000/products/`);
+    let url = undefined;
+    if(dir==undefined)
+      {
+        url  = `http://localhost:8080/api/user/product/getallproductbycategory?categorycode=lap-top&page=${page}&limit=2`;
+      }
+      else{
+        if(dir === 'asc')
+          {
+        url = `http://localhost:8080/api/user/product/fillterproduct?categorycode=lap-top&page=${page}&limit=2&orderby=price&dir=0`;
+
+          }
+          else if(dir === 'desc')
+            {
+              
+        url = `http://localhost:8080/api/user/product/fillterproduct?categorycode=lap-top&page=${page}&limit=2&orderby=price&dir=1`;
+
+            }
+      }
+    console.log('check url', url);
+    const { data } = await axios.get(url);
+    console.log('data all page', data);
+    console.log('number page', page);
+    
     dispatch({ type: "GET_ALL_PRODUCT", payload: data });
   } catch (error) {
     dispatch({ type: "GET_ALL_PRODUCT_FAIL", payload: error.message });
   }
 };
 
-export const ascendingProduct = (products) => async (dispatch, getState) => {
-  dispatch({ type: "ASCENDING_PRODUCT"});
+export const deleteAllProductInStore = () => async (dispatch) => {
+  try {
+  
+    dispatch({ type: "DELETE_ALL_PRODUCT"});
+  } catch (error) {
+    dispatch({ type: "GET_ALL_PRODUCT_FAIL", payload: error.message });
+  }
 };
 
-export const descendingProduct = (products) => async (dispatch, getState) => {
-  dispatch({ type: "DESCENDING_PRODUCT"});
+
+export const ascendingProduct = (page) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(`http://localhost:8080/api/user/product/fillterproduct?categorycode=lap-top&page=1&limit=2&orderby=price&dir=0`);
+    console.log('data asc', data);
+    console.log('number page', page);
+    const asc = {
+      name:'asc',
+      ...data
+    }
+    dispatch({ type: "GET_ALL_PRODUCT", payload: asc });
+  } catch (error) {
+    dispatch({ type: "GET_ALL_PRODUCT_FAIL", payload: error.message });
+  }
+};
+
+export const descendingProduct = (page) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(`http://localhost:8080/api/user/product/getallproductbycategory?categorycode=lap-top&page=${page}&limit=2&orderby=price&dir=1`);
+    console.log('data desc', data);
+    console.log('number page', page);
+    const desceending = {
+      name:'desc',
+      ...data
+    }
+    dispatch({ type: "GET_ALL_PRODUCT", payload: desceending });
+  } catch (error) {
+    dispatch({ type: "GET_ALL_PRODUCT_FAIL", payload: error.message });
+  }
 };
 
 export const filterProduct = (name) => async (dispatch, getState) => {
@@ -44,10 +98,14 @@ export const filterProduct = (name) => async (dispatch, getState) => {
 };
 
 export const filterProductByPrice =
-  (startPrice, endPrice) => async (dispatch, getState) => {
+  (startPrice, endPrice, page) => async (dispatch, getState) => {
+    const { data } = await axios.get(
+      `http://localhost:8080/api/user/product/filterbyprice?minprice=${startPrice}&maxprice=${endPrice}&page=${page}&limit=2`
+    );
+
     dispatch({
       type: actions.FILTER_PRODUCT_BY_PRICE,
-      payload: { startPrice, endPrice },
+      payload: data,
     });
   };
 
@@ -69,7 +127,7 @@ export const paginationProduct = (page) => async (dispatch) => {
 export const getproductById = (id) => async (dispatch) => {
   try {
     const { data } = await axios.get(
-      `http://localhost:4000/products/detail/${id}`
+      `http://localhost:8080/api/user/product/detail/${id}`
     );
     dispatch({ type: "GET_PRODUCT_BY_ID", payload: data });
   } catch (error) {
@@ -136,12 +194,21 @@ export const DeleteProduct = (productId) => async (dispatch, getState) => {
   }
 };
 
-export const searchProduct = (name) => async (dispatch, getState) => {
+export const clearSearchProduct = () => (dispatch) => {
+  dispatch({ type: "CLEAR_SEARCH_PRODUCT" });
+};
+export const searchProduct = (name, page) => async (dispatch, getState) => {
   try {
     const { data } = await axios.get(
-      `http://localhost:4000/products/search/product?name=${name}`
+      `http://localhost:8080/api/user/product/search?name=${name}&page=${page}&limit=2`
     );
-    dispatch({ type: "SEARCH_PRODUCT", payload: data });
+    const searchData ={
+      name: name,
+      ...data
+    }
+    console.log('search data',searchData);
+
+    dispatch({ type: "SEARCH_PRODUCT", payload: searchData });
   } catch (error) {
     dispatch({ type: "SEARCH_PRODUCT_FAIL", payload: error.message });
   }

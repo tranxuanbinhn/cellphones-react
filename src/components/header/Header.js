@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./Header.css";
 import { SignoutUser } from "../../actions/UserAction";
 import { useHistory } from "react-router";
-import { searchProduct } from "../../actions/ProductAction";
+import { searchProduct,clearSearchProduct } from "../../actions/ProductAction";
 import { Link } from "react-router-dom";
+import {GetAllProductInCart} from '../../actions/CartAction'
 
 import {
   DownOutlined,
@@ -24,23 +25,32 @@ function Header(props) {
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo, error } = userSignin;
   const [search, setSearch] = useState("");
+  useEffect(()=>
+    {
+      console.log('Do')
+      dispatch(GetAllProductInCart());
+    },[])
   const cartItems = useSelector((state) => state.cart.cartItems);
-  const amount = cartItems.reduce((a, b) => a + b.qty, 0);
+  console.log('cartItems is',cartItems);
+  const amount = cartItems.reduce((a, b) => a + b.quantity, 0);
 
   const [menu, setMenu] = useState(true);
 
-  const handleSignout = () => {
+  const handleSignout = () => { 
     dispatch(SignoutUser());
   };
 
   const SearchProduct = async (e) => {
     e.preventDefault()
     await history.push("/search");
-    dispatch(searchProduct(search));
+    dispatch(clearSearchProduct());
+    dispatch(searchProduct(search,1));
     setSearch('')
   };
 
+  
   return (
+    
     <div className="header">
       <section id="menu">
         <div className="logo">

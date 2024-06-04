@@ -17,8 +17,8 @@ function DetailInfo(props) {
         <div className="detail-info-right">
             <div className="detail-info-right-price">
                 <p className="price-box">
-                    <span className="saleprice">{formatPrice(product.salePrice)}đ</span>
-                    <span className="old-price">Giá niêm yết : <strong className="price">{formatPrice(product.price)}đ</strong> </span>
+                 
+                    <span className="">Giá niêm yết : <strong className="saleprice price">{formatPrice(product.price)}đ</strong> </span>
                 </p>
                 <p className="detail-info-sale">
                     Sản phẩm thuộc chương trình HOT SALE CUỐI TUẦN - Nhanh tay thanh toán!
@@ -33,7 +33,7 @@ function DetailInfo(props) {
                         <span>(Giao tận nơi hoặc lấy tại cửa hàng)</span>
                     </Link>
                 </div>
-                <div className="detail-info-right-buy-installment">
+                {/*<div className="detail-info-right-buy-installment">
                     <a href="">
                         <strong>TRẢ GÓP 0%</strong>
                         <br></br>
@@ -44,6 +44,23 @@ function DetailInfo(props) {
                         <br></br>
                         <span>(Visa, Master, JCB)</span>
                     </a>
+                </div>*/}
+            </div>
+            <div className='information'>
+                <h2>Thông tin sản phẩm</h2>
+                <div className='information-inner'> 
+                <li className='information-inner-tech'><p>Description: </p> <div>{product.description}</div></li>
+                <li className='information-inner-tech'><p>Color: </p> <div>{product.color}</div></li>
+                <li className='information-inner-tech'><p>Number stock: </p> <div>{product.numberStock}</div></li>
+                <li className='information-inner-tech'><p>Brand name: </p> <div>{product.brandName}</div></li>
+                <li className='information-inner-tech'><p>Screen size: </p> <div>{product.screensize}</div></li>
+                <li className='information-inner-tech'><p>Screen technology: </p> <div>{product.screentech}</div></li>
+                <li className='information-inner-tech'><p>Ram: </p> <div>{product.ramstorage}</div></li>
+                <li className='information-inner-tech'><p>Internal memory: </p> <div>{product.internalmemory}</div></li>
+                <li className='information-inner-tech'><p>OS: </p> <div>{product.os}</div></li>
+
+
+
                 </div>
             </div>
         </div>

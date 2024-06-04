@@ -11,11 +11,13 @@ function FilterProduct(props) {
   const dispatch = useDispatch();
   const [startPrice, setStartPrice] = useState(0);
   const [endPrice, setEndPrice] = useState(0);
-  
-  const FilterProductByPrice =  (a, b) => {
+  const page = props.page;
+  const filter = props.filter;
+  const FilterProductByPrice =  (a, b, page) => {
+    
     let startPrice = parseInt(a);
     let endPrice = parseInt(b);
-    dispatch(filterProductByPrice(startPrice, endPrice));
+    dispatch(filterProductByPrice(startPrice, endPrice, page));
   };
 
   
@@ -37,7 +39,7 @@ function FilterProduct(props) {
           placeholder="đ ĐẾN"
           onChange={(e) => setEndPrice(e.target.value)}
         ></input>
-        <button onClick={() => FilterProductByPrice(startPrice, endPrice)}>
+        <button onClick={() => FilterProductByPrice(startPrice, endPrice,page)}>
           Tìm
         </button>
       </div>

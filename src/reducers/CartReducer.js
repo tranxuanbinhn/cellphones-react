@@ -18,17 +18,26 @@ export const CartReducer = (state = {cartItems: []}, action) => {
             return {
                 ...state,
                 cartItems: newList
-            };
+            }
         }
             
-        
+        case 'GET_ALL_PRODUCT':{
+            let newList = action.payload;
+            console.log('newList is',newList);
+            state.cartItems =[];
+            console.log('cartItems emtpy',state.cartItems)
+            return {
+                ...state,
+                cartItems:newList
+            }
+        }
         case 'DELETE_TO_CART': {
-            let newList = [...state.cartItems]
+            let newList = [...state.cartItems.cartItems]
             const exists = newList.find(item => item._id === action.payload._id)
-            if (exists.qty === 1) {
-                newList = newList.filter((item) => item._id !== exists._id)
+            if (exists.quantity === 1) {
+                newList = newList.filter((item) => item.productId !== exists.productId)
             }else{
-                newList = newList.map((item) => item._id === action.payload._id ? { ...exists, qty: exists.qty - 1 } : item)
+                newList = newList.map((item) => item.productId === action.payload ? { ...exists, qty: exists.quantity - 1 } : item)
             }
     
             localStorage.setItem('cartItems', JSON.stringify(newList))
@@ -36,6 +45,13 @@ export const CartReducer = (state = {cartItems: []}, action) => {
                 ...state,
                 cartItems: newList
             };
+        }
+        case 'DELETE_WHEN_LOGOUT':{
+            console.log('delete when logout')
+            return {
+                ...state,
+                cartItems:undefined
+            }
         }
             
         case 'DELETE_QTY_PRODUCT': {

@@ -2,12 +2,13 @@ import React from 'react';
 import Product from './Product'
 
 function ListProduct(props) {
-    const {HotSaleProducts} = props;
+    const listResult  = props.products;
+    console.log('HotSaleProducts',listResult );
 
     return (
         <div className="hotsale-listproduct">
             {
-                HotSaleProducts.map((product, index) => (
+                listResult .map((product, index) => (
                     <Product product={product} key={index}></Product>
                 ))
             }

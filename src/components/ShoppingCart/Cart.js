@@ -1,31 +1,30 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { formatPrice } from '../../untils';
 import './ShoppingCart.css'
-import ListProduct from './ListProduct'
+import ListProduct from './ListProduct';
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     Link,
     useHistory
 } from "react-router-dom";
+import { GetAllProductInCart } from '../../actions/CartAction';
 
 function Cart(props) {
-    const history = useHistory()
+  const dispatch = useDispatch();
+  
     const cartItems = useSelector((state) => state.cart.cartItems);
-    var userInfo = useSelector((state) => state.userSignin.userInfo);
-    const totalPrice = cartItems.reduce(
-      (total, item) => total + item.qty * item.salePrice,
-      0
-    );
+    console.log('cart items', cartItems);
+    
+ 
 
-    const Order = () => {
-      if (userInfo) {
-        history.push("/order");
-      } else {
-        alert("ban can dang nhap");
-        history.push("/login");
-      }
-    };
-
+   
+   useEffect(()=>
+  {
+    console.log('Do')
+    dispatch(GetAllProductInCart());
+  },[])
+    
     return (
       <section id="shopping-cart">
         <div className="shopping-cart">
@@ -39,17 +38,7 @@ function Cart(props) {
 
           {cartItems ? <ListProduct products={cartItems}></ListProduct> : ""}
 
-          <div className="total-price">
-            <span className="left">Tổng tiền</span>
-            <span className="right">{formatPrice(totalPrice)}</span>
-          </div>
-          {totalPrice <= 0 ? (
-            ""
-          ) : (
-            <div className="order">
-              <Link onClick={() => Order()}> Đặt Hàng </Link>
-            </div>
-          )}
+          
         </div>
       </section>
     );

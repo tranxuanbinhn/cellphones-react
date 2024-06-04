@@ -31,9 +31,10 @@ function Login(props) {
 
   return (
     <div class="login-page">
+      {error && <h1 className='error'>{error}</h1>}
       <h2> ĐĂNG NHẬP </h2>
       <form onSubmit={handleSubmit(onSubmit)} class="form-login">
-        <input {...register("email")} placeholder="Email" required></input>
+        <input {...register("email")} placeholder="Email"  type="email" required></input>
         <input
           {...register("password")}
           placeholder="Password"

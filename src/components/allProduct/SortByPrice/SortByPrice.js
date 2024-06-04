@@ -2,13 +2,13 @@ import React from "react";
 import "./SortByPrice.css";
 import { useDispatch } from "react-redux";
 import {
-  ascendingProduct,
+  getAllProductByCategoryCode,
   descendingProduct,
 } from "../../../actions/ProductAction";
 import { Dropdown } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 
-export default function SortByPrice() {
+export default function SortByPrice(props) {
   const dispatch = useDispatch();
 
   const menuShow = () => (
@@ -21,13 +21,28 @@ export default function SortByPrice() {
       </div>
     </div>
   );
-
+  const page = props.page;
   const ThapDenCao = () => {
-    dispatch(descendingProduct());
+
+    const queryParams = new URLSearchParams(window.location.search);
+              queryParams.set('sort', 'desc');
+                // Lấy URL hiện tại và thêm chuỗi query parameter mới vào
+      const newUrl = window.location.pathname + '?' + queryParams.toString();
+  
+      // Truy cập URL mới
+      window.location.href = newUrl;
+    dispatch(getAllProductByCategoryCode(page));
   };
 
   const CaoDenThap = () => {
-    dispatch(ascendingProduct());
+   const queryParams = new URLSearchParams(window.location.search);
+    queryParams.set('sort', 'asc');
+      // Lấy URL hiện tại và thêm chuỗi query parameter mới vào
+const newUrl = window.location.pathname + '?' + queryParams.toString();
+
+// Truy cập URL mới
+window.location.href = newUrl;
+    dispatch(getAllProductByCategoryCode(page));
   };
 
   return (

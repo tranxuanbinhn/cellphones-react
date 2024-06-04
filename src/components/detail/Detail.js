@@ -13,7 +13,10 @@ import BlogContent from './BlogContent';
 function Detail(props) {
     const dispatch = useDispatch()
     const { id } = useParams();
-    const detailProduct = useSelector(state => state.getProductById.product)
+    const detailProduct = useSelector(state => state.getProductById.product);
+    console.log('detail product', detailProduct);
+   
+
 
     useEffect(() => {
         dispatch(getproductById(id))
@@ -25,7 +28,7 @@ function Detail(props) {
                 detailProduct ? (
             <div className="detail">
                 <div className="detail-title">
-                    <h2>{detailProduct.name}</h2>
+                    <h2>{detailProduct.productName}</h2>
                 </div>
                 <div className="detail-info">
                     <div className="detail-info-slide">
@@ -35,15 +38,15 @@ function Detail(props) {
                     </div>
                     <DetailInfo  product={detailProduct}></DetailInfo>
                 </div>
-                <div>
+                {/*<div>
                     <BlogContent></BlogContent>
-                </div>
-                <div>
+                </div>*/}
+                {/*<div>
                     <RateStar></RateStar>
-                </div>
-                <div>
+                </div>*/}
+                {/*<div>
                     <CommentProduct></CommentProduct>
-                </div>
+                </div>*/}
                 
             </div>
             ) : ''

@@ -8,6 +8,9 @@ import { ChatReducer } from './reducers/ChatReducer'
 import { SelectListReducer, UpdateSelectListReducer } from "./reducers/SelectListReducer";
 import { ListTypeProductReducer, TypeProductReducer } from './reducers/ListTypeProductReducer'
 import { InfoGhnReducer } from './reducers/GhnReducer'
+import { Message } from './reducers/MessageReducer';
+
+
 const initialState = {
   userSignin: {
     userInfo: localStorage.getItem("userInfo")
@@ -42,6 +45,7 @@ const reducer = combineReducers({
   updateSelect: UpdateSelectListReducer,
   allTypeProduct: ListTypeProductReducer,
   detailType: TypeProductReducer,
+  message:Message
 });
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducer,initialState, composeEnhancer(applyMiddleware(thunk)));

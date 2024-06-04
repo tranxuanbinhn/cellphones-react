@@ -1,11 +1,12 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {AddToCart} from '../../actions/CartAction'
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 import {formatPrice} from '../../untils/index'
 import { message} from 'antd';
 
 function Product(props) {
+    const user = useSelector((state)=>state.userSignin.userInfo);
     const { product } = props;
     const dispatch = useDispatch();
 
@@ -22,22 +23,29 @@ function Product(props) {
             },
           });
       };
-
+      const history = useHistory();
     const  AddProductToCart = async (product) => {
-        const action = AddToCart(product);
+        if(user)
+            {
+        const action = AddToCart(product,true);
         await dispatch(action);
         success()
+            }
+        else{
+          alert("ban can dang nhap");
+          history.push('/login');
+            }
+        
     }
 
 
     return (
         <div className="hotsale-listproduct-product">
-            <Link to={"/detail/" + product._id}>
+            <Link to={"/detail/" + product.id}>
                 <img src={product.image}></img>
-                <p className="hotsale-listproduct-product-name">{product.name}</p>
+                <p className="hotsale-listproduct-product-name">{product.productName}</p>
                 <div className="price">
-                    <span className="price1">{formatPrice(product.salePrice)}đ</span>
-                    <span className="price2">{formatPrice(product.price)}đ</span>
+                    <span className="price">{formatPrice(product.price)}đ</span>
                 </div>
             </Link>
             {
@@ -46,7 +54,7 @@ function Product(props) {
             </div>) : ''
             }
             <div className="buy">
-                <Link to="" onClick={(e) => {AddProductToCart(product)}}> Mua Ngay</Link>
+                <Link  onClick={(e) => {AddProductToCart(product)}}> Mua Ngay</Link>
             </div>
     
         </div>

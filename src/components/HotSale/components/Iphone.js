@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import ListProduct from '../ListProduct'
-import {handlePercentDiscount} from '../../../untils/index'
+import { Link } from 'react-router-dom';
+
 import { useDispatch } from 'react-redux';
 
 
-function Iphone(props) {
+function CategorHotProduct(props) {
     const dispatch = useDispatch()
-    const [name, setName] = useState('iphone');
-    const [hotIphone, setHotIphone] = useState([])
+    const [name, setName] = useState('');
+    const [ListCategory, setListCategory] = useState([])
     useEffect(() => {
         async function FetchApi(){
             try {
-                const {data} = await axios.get(`http://localhost:4000/products/${name}`)
-                setHotIphone(data)
+                const {data} = await axios.get('http://localhost:8080/api/user/category');
+                console.log('data',data);
+                setListCategory(data)
             } catch (error) {
             }
         }
@@ -23,17 +25,22 @@ function Iphone(props) {
    
 
     return (
-        <section id="hotsale iphone">
-            <div className="hotsale">
-                <h2>{name}</h2>
+        <section id="hotsale">  
+        {
+            ListCategory.map(category => (
+                <div className="hotsale">
+                <h2><Link to={`/product/${category.categoryCode}`} style={{color:'inherit'}}>{category.categoryName}</Link></h2>
                 {
-                    hotIphone ? (<ListProduct HotSaleProducts={handlePercentDiscount(hotIphone)}></ListProduct>) : ''
+                   <ListProduct CategoryId={category.id}></ListProduct>
                 }
             </div>
+            ))
+        }
+           
         </section>
 
     );
 }
 
 
-export default Iphone;
+export default CategorHotProduct;

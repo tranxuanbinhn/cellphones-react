@@ -1,11 +1,31 @@
+.error{
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
+.success{
+    color: #1c724b;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
 
 .signup-page{
-    position: absolute;
-    width: 500px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,0%);
 
+    width: 500px;
+    top: 100%;
+    left: 50%;
+    margin: 0 auto;
+    margin-bottom: 100px;
     display: flex;
     flex-direction: column;
     justify-content: center;

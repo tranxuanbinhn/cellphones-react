@@ -6,7 +6,30 @@ const initialState = {
 export const getAllProductReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'GET_ALL_PRODUCT':
+           {
+
+            //let currentProducts = Array.isArray(state.product.listResult) ? state.product.listResult : [];
+            //console.log('current product', currentProducts);
+            //////products = products.concat(action.payload.listResult);
+            ////console.log('new list', products);
+            //let payloadListResult = Array.isArray(action.payload.listResult) ? action.payload.listResult : [];
+            //console.log('payloadListResult',payloadListResult);
+            //if(action.payload.page === 1)
+            //{
+            //    currentProducts = [];
+
+            //}
+            //let updatedProducts= currentProducts.concat(payloadListResult); 
+  
+         
+           
+            //console.log('update product',  action.payload);
+            
+            //action.payload.listResult = updatedProducts;
+
+            //console.log('hello', updatedProducts);
             return {...state, product: action.payload}
+           }
 
         case 'GET_ALL_PRODUCT_FAIL':
             return {...state, error: action.payload}
@@ -22,6 +45,9 @@ export const getAllProductReducer = (state = initialState, action) => {
             newList = newList.sort((a,b) => a.salePrice - b.salePrice)
             return {...state, product: newList}
         }
+        case 'DELETE_ALL_PRODUCT':{
+            return {...state, product: []}
+        }
 
         case 'FILTER_PRODUCT':{
             let newList = [...state.product]
@@ -30,9 +56,15 @@ export const getAllProductReducer = (state = initialState, action) => {
         }
 
         case 'FILTER_PRODUCT_BY_PRICE':{
-            let newList = [...state.product]
-            newList = newList.filter(item => item.salePrice >= action.payload.startPrice && item.salePrice <= action.payload.endPrice)
-            return {...state, product: newList}
+           
+            //let currentProducts = Array.isArray(state.product.listResult) ? state.product.listResult : [];
+            //console.log('current product', currentProducts);
+            
+            //let payloadListResult = Array.isArray(action.payload.listResult) ? action.payload.listResult : [];
+            //let updatedProducts  = currentProducts.concat(payloadListResult);
+            //console.log('update product',  action.payload);
+            //action.payload.listResult = updatedProducts;
+            return {...state, product: action.payload}
         }
         
         case 'FILTER_PRODUCT_BY_RANDOM_FIELD':{
@@ -148,6 +180,10 @@ export const searchProductReducer = (state = {}, action) => {
         case 'SEARCH_PRODUCT':{
             return {...state, products: action.payload}
         }
+        case 'CLEAR_SEARCH_PRODUCT':{
+            return {...state, products: null}
+        }
+
 
         case 'SEARCH_PRODUCT_FAIL':{
             return {...state, error: action.payload}
