@@ -5,6 +5,27 @@
     font-weight: 600;
     color: #6b6b6b;
 }
+.reset-password:hover .text_reset_password{
+    visibility: visible;
+    opacity: 1;
+    
+}
+.reset-password
+{
+    position: relative;
+}
+.admin-user .add-product>span
+{
+font-size: 35px;
+}
+.text_reset_password
+{
+    position: absolute;
+    visibility: hidden;
+    top: -4px;
+    font-size: 12px;
+   
+}
 .admin-user-list{
     background: white;
     margin: 0 .5rem 0 1rem;

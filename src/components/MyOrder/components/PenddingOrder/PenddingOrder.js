@@ -15,7 +15,7 @@ function PenddingOrder(props) {
   const orderParent = (item) => (
     <div className="all-myorder-parent-item">
       <div className="all-myorder-list">
-        {item.orderItems.map((item) => orderItem(item))}
+        {item.orderDetailDTOS.map((item) => orderItem(item))}
       </div>
       <div className="all-myorder-item-totalprice">
         {item.paymentMethod === "payOnline" ? (
@@ -38,17 +38,18 @@ function PenddingOrder(props) {
         <img src={item.image}></img>
       </div>
       <div className="all-myorder-item-name">
-        <p>{item.name}</p>
-        <span>x{item.qty}</span>
+        <p>{item.productName}</p>
+        <span>x{item.quantity}</span>
       </div>
       <div className="all-myorder-item-price">
-        {formatPrice(item.salePrice)}
+        {formatPrice(item.unitPrice)}
       </div>
     </div>
   );
 
   const handleCancelOrder = async (item) => {
-    await dispatch(cancelOrder(item._id));
+    console.log('item', item);
+    await dispatch(cancelOrder(item.id));
     dispatch(getOrderPenddingByUser(userInfo._id));
   };
 

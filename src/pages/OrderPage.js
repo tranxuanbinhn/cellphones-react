@@ -11,7 +11,7 @@ OrderPage.propTypes = {
 function OrderPage(props) {
     return (
         <div>
-             <Header></Header>
+            <Header></Header>
             <Order></Order>
         </div>
     );

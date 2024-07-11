@@ -9,8 +9,10 @@ import {
 } from "@ant-design/icons";
 import "./DashBoard.css";
 import ChartDashBoard from "./ChartDashBoard";
+import { useSelector } from "react-redux";
 
 export default function DashBoard() {
+  const {userInfo} = useSelector((state)=> state.userSignin)
   return (
     <section id="dashboard">
       <div className="dashboard">
@@ -25,8 +27,7 @@ export default function DashBoard() {
           </div>
           <div className="dashboard-top-content">
             <li className="dashboard-top-content-avatar">
-              <img src="https://res.cloudinary.com/caokhahieu/image/upload/v1626334932/gediogbkwlg85kbbsamq.jpg"></img>
-              <span>Cao Kha Hieu</span>
+              <span>Hello {userInfo.username}</span>
             </li>
             <li className="dashboard-top-content-bell">
               <BellOutlined></BellOutlined>

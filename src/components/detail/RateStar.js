@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import {Rate, Row, Col, Divider, Progress} from 'antd'
 import {useParams} from 'react-router-dom'
-import { reviewProduct } from '../../actions/ProductAction';
+import { reviewProduct,getReviewProduct,getRateProduct, clearRateProduct } from '../../actions/ProductAction';
 import { StarOutlined } from '@ant-design/icons';
 
 function RateStar(props) {
@@ -13,33 +13,73 @@ function RateStar(props) {
     const [showRate, setShowRate] = useState(false)
     const [showEvaluate, setShowEvalute] = useState(false)
     const [evaluate, setEvaluate] = useState('')
-
+    const [productReview, setProductReview] = useState([]);
     const {userInfo} = useSelector(state => state.userSignin)
-    const product = useSelector(state => state.getProductById.product)
+    const product = useSelector(state => state.getProductById.reviews);
+    const [rate, setRateProduct] = useState({});
+    const rateProduct = useSelector(state => state.getProductById.rate)
+   
+    console.log("product", productReview);
+ 
+
+    console.log('rate',rateProduct);
     
-    const countReview = product.reviews.length;
-    let averageRate = Math.round(product.reviews.reduce((a,c) => a + c.star, 0) / countReview)
+
+    let averageRate = rate?.average;
+    console.log('countReview', averageRate);
+    
+  
 
     if(userInfo) {
-        var existsUser = product.reviews.find(x => x.name == userInfo.name)
+        var existsUser = userInfo.name;
     }
-    
-    const fiveStar = Math.round(product.reviews.filter(x => x.star === 5).length / countReview * 100)
-    const fourStar = Math.round(product.reviews.filter(x => x.star === 4).length / countReview * 100)
-    const threeStar = Math.round(product.reviews.filter(x => x.star === 3).length / countReview * 100)
-    const twoStar = Math.round(product.reviews.filter(x => x.star === 2).length / countReview * 100)
-    const oneStar = Math.round(product.reviews.filter(x => x.star === 1).length / countReview * 100)
+    useEffect(() => {
+   
 
+if (Array.isArray(product?.listResult)) {
+        setProductReview(prevProducts => [...prevProducts, ...product.listResult]);
+    }  
+        //product.listResult
+    }, [product?.listResult]);
+    const fiveStar = Math.round(rate?.fiveStar);
+    const fourStar = Math.round(rate?.fourStar);
+    const threeStar = Math.round(rate?.threeStar);
+    const twoStar = Math.round(rate?.twoStar);
+    const oneStar = Math.round(rate?.oneStar);
+
+    const [page, setPage] = useState(1);
+   
+    useEffect(()=>{
+        console.log('do this');
+        dispatch(getReviewProduct(id, page));
+        dispatch(getRateProduct(id));
+        
+       
+        
+    },[dispatch, id, page])
+    useEffect(()=>{
+        setRateProduct(rateProduct);
+    },[])
+    useEffect(()=>{
+        console.log('active');
+        return  setProductReview([]);
+    },[])
+    const goToNextPage = () => {
+        setPage(page + 1);}
     const onFinish = (value) => {
         const review ={
-            name: userInfo.name,
-            star: star,
+            
+            rate: star,
             comment: evaluate,
+            productId:id
+            
         }
-        dispatch(reviewProduct(id, review))  
+        dispatch(reviewProduct(review))  
         setEvaluate('')
         setShowEvalute(false)
         setShowRate(false)
+        window.location.reload();
+
     }
     const setRate = (value) => {
         setStar(value)
@@ -50,7 +90,7 @@ function RateStar(props) {
         <div className="">
             <Row>
                 <Col span={18} xs={24} sm={24} md={24} style={{minWidth:'100%'}}>
-                    <span className="rate-star-title">{product.reviews.length} Đánh giá {product.name}</span>
+                    <span className="rate-star-title">{productReview.length} Đánh giá {product?.name}</span>
                 </Col>
             </Row>
             <Row>
@@ -116,12 +156,12 @@ function RateStar(props) {
 
             <Row style={{marginTop: '1rem'}}>
                  {
-                     product.reviews.map(item => (
+                     productReview.map(item => (
                 <Col span={18} align='start' xs={24} sm={24} md={18}>
                      <div className="danhgia">
-                         <p className="name" style={{fontWeight:'bold', fontSize: '15px'}}>{item.name}</p>
+                         <p className="name" style={{fontWeight:'bold', fontSize: '15px'}}>{item.userName}</p>
                          <div className="cmt" style={{display:'flex'}}>
-                             <Rate style={{color: 'orange', fontSize: '14px'}} value={item.star} disabled={true}/>
+                             <Rate style={{color: 'orange', fontSize: '14px'}} value={item.rate} disabled={true}/>
                              <p className="cmt" style={{marginLeft: '1rem'}}>{item.comment}</p>
                          </div>
                          <Divider></Divider>
@@ -129,6 +169,9 @@ function RateStar(props) {
                 </Col>))
                  }
              </Row> 
+             <div className='btn-showmore'>
+            <a className='btn-showmore-inner' onClick={goToNextPage}>Show more {product?.remainingproduct} review</a>
+          </div>
         </div>
     );
 }

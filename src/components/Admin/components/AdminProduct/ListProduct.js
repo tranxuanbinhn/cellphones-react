@@ -6,11 +6,14 @@ import { Pagination } from 'antd';
 
 function ListProduct(props) {
     const dispatch = useDispatch()
+
     const {listProducts} = props;
+    const listResult = listProducts?.listResult;
     const currentPage = useSelector(state => state.allProduct.currentPage)
     const {pages} = useSelector(state => state.allProduct.product)
-
+    console.log('props', listProducts?.totalPage);
     const HandleChangePage = async (number) => {
+        console.log('number', number)
         await dispatch(paginationProduct(number))
         dispatch(editCurrentPage(number))
     }
@@ -26,12 +29,12 @@ function ListProduct(props) {
                     <th>Type</th>
                 </tr>
                 {
-                    listProducts ? listProducts.map((item, index) => (<Product product={item} key={item._id} update={item._id} number={index}></Product>)) : ''
+                    listResult ? listResult.map((item, index) => (<Product product={item} key={item.id} update={item.id} number={index}></Product>)) : ''
                 }
             </table>
             
             <div className="pagination">
-                <Pagination defaultCurrent={1} current={currentPage} total={pages*10} onChange={HandleChangePage}/>
+                <Pagination defaultCurrent={1} current={currentPage} total={listProducts?.totalItems} pageSize={2} onChange={HandleChangePage}/>
             </div>
 
        </div>

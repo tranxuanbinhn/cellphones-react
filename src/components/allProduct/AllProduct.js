@@ -5,9 +5,7 @@ import './Sale.css'
 import {handlePercentDiscount} from '../../untils/index'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllProduct, getAllProductByCategoryCode, deleteAllProductInStore} from '../../actions/ProductAction';
-import SortByBrand from './SortByBrand/SortByBrand';
 
-import FilterProduct from './FilterProduct';
 import SortByPrice from './SortByPrice/SortByPrice';
 
 

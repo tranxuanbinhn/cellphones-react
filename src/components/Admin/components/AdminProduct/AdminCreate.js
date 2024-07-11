@@ -18,7 +18,9 @@ function AdminCreate(props) {
   const [image, setImage] = useState("");
   const [activeTypeProduct, setActiveTypeproduct] = useState("");
   const SelectList = useSelector(state => state.selectList.List)
-  const { pages } = useSelector((state) => state.allProduct.product);
+  const Brands = useSelector(state => state.selectList.Brand)
+
+  let  pages  = useSelector((state) => state.allProduct.currentPage);
   const { List } = useSelector((state) => state.allTypeProduct);
 
   useEffect(() => {
@@ -34,23 +36,27 @@ function AdminCreate(props) {
   };
 
   const onSubmit = async (data) => {
-    let formData = new FormData();
-
-    formData.append("name", data.name);
-    formData.append("price", data.price);
-    formData.append("amount", data.amount);
-    formData.append("salePrice", data.salePrice);
-    formData.append("type", activeTypeProduct);
-    formData.append("image", image);
-
-    formData.append("os", data.os);
-    formData.append("ram", data.ram);
-    formData.append("battery", data.battery);
-    formData.append("rom", data.rom);
-    formData.append("camera", data.camera);
-    formData.append("special", data.special);
-    formData.append("design", data.design);
-    formData.append("screen", data.screen);
+    
+    data.image = image;
+    pages = 1;
+    const formData = new FormData();
+    formData.append('productName', data.productName);
+    formData.append('description', data.description);
+    formData.append('size',data.size);
+    formData.append('color',data.color);
+    formData.append('price',data.price);
+    formData.append('weight',data.weight);
+    formData.append('height',data.height);
+    formData.append('length',data.length);
+    formData.append('width',data.width);
+    formData.append('file',image);
+    formData.append('screensize',data.screensize);
+    formData.append('screentech',data.screentech);
+    formData.append('ramstorage',data.ramstorage);
+    formData.append('internalmemory',data.internalmemory);
+    formData.append('os',data.os);
+    formData.append('brandName',data.brandName);
+    formData.append('categoryName',data.categoryName);
 
     await dispatch(saveProduct(formData));
     await dispatch(editCurrentPage(pages));
@@ -66,7 +72,7 @@ function AdminCreate(props) {
       }
       onClick={() => HandleFilterProductByType(item.name)}
     >
-      <img src={item.img}></img>
+      <img src={item.image}></img>
     </div>
   );
 
@@ -76,51 +82,129 @@ function AdminCreate(props) {
 
   return (
     <div className="admin-create">
-      <span>Create Product</span>
-      <form
-        className="admin-create-product"
-        onSubmit={handleSubmit(onSubmit)}
-        encType="multipart/form-data"
-      >
-        <input {...register("name")} placeholder="Name"></input>
-        <input
-          {...register("amount")}
-          placeholder="Amount"
-          type="number"
-        ></input>
-        <input {...register("price")} placeholder="Price" type="number"></input>
-        <input
-          {...register("salePrice")}
-          placeholder="SalePrice"
-          type="number"
-        ></input>
+      <span>Add Product</span>
+      
+        <form
+          className="admin-create-product"
+          onSubmit={handleSubmit(onSubmit)}
+          encType="multipart/form-data"
+        >
+           
+          <input
+            {...register("productName")}
+            placeholder="Name"
+           
+          ></input>
+         
+          <input
+            {...register("size")}
+            placeholder="Size"
+          
+           
+          ></input>
+          <input
+            {...register("price")}
+            placeholder="Price"
+            type="number"
+            defaultValue={0}
+          ></input>
+          <input
+            {...register("color")}
+            placeholder="Color"
+         
+           
+          ></input>
+          <input
+            {...register("description")}
+            placeholder="description"
+         
+           
+          ></input>
+          <input
+            {...register("height")}
+            placeholder="height"
+            defaultValue={0}
+           
+          ></input>
+              <input
+            {...register("length")}
+            placeholder="length"
+            defaultValue={0}
+           
+          ></input>
+          <input
+            {...register("internalmemory")}
+            placeholder="internalmemory"
+         
+           
+          ></input>
+          <input
+            {...register("ramstorage")}
+            placeholder="ramstorage"
+         
+           
+          ></input>
+          <input
+            {...register("screensize")}
+            placeholder="screensize"
+            defaultValue={0}
+           
+          ></input>
+          <input
+            {...register("screentech")}
+            placeholder="screentech"
+         
+           
+          ></input>
+          <input
+            {...register("weight")}
+            placeholder="weight"
+            defaultValue={0}
+           
+          ></input>
+         
+           <input
+            {...register("width")}
+            placeholder="width"
+            defaultValue={0}
+           
+          ></input>
+          
+         
 
-        <div className="filter-menu-firm">
-          {
-            List ? (List.map((item) => MenuFirmProduct(item))) : ''
-          }
-        </div>
+          {SelectList && SelectList.length > 0
+            ? SelectList.map((item) => (
+                <div className="select-type">
+                  <select
+                    {...register('categoryName')}
+                    defaultValue={SelectList[0]?.categoryName}
+                  >
+                   <option value={item.categoryName}>{item.categoryName}</option>
+                  </select>
+                </div>
+              ))
+            : ""}
+              {Brands && Brands.length > 0
+            ? Brands.map((item) => (
+                <div className="select-type">
+                  <select
+                    {...register('brandName')}
+                    defaultValue={Brands[0]?.brandName}
+                  >
+                   <option value={item.brandName}>{item.brandName}</option>
+                  </select>
+                </div>
+              ))
+            : ""}
 
-        {SelectList && SelectList.length > 0
-          ? SelectList.map((item) => (
-              <div className="select-type">
-                <select {...register(`${item.property}`)}>
-                  <option>{item.name}</option>
-                  {item.options.map((x) => (
-                    <option value={x}>{x}</option>
-                  ))}
-                </select>
-              </div>
-            ))
-          : ""}
-
-        <input
-          type="file"
-          {...register("image")}
-          onChange={handleFileImageChange}
-        ></input>
-        <button type="submit">Add Product</button>
-      </form>
+          <input
+            type="file"
+            {...register("image")}
+            onChange={handleFileImageChange}
+          ></input>
+          <button type="submit">Add Product</button>
+        </form>
+       
     </div>
   );
 }

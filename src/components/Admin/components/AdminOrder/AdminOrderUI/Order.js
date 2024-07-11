@@ -15,13 +15,15 @@ function Order(props) {
   const dispatch = useDispatch();
 
   const {
-    orderItems,
+    orderDetailDTOS,
     totalPrice,
     paymentMethod,
     cancelOrder,
-    shippingAddress,
+    address,
     status,
     paymentResult,
+    createDate,
+    shipPayment
   } = order;
 
   const handleShippingOrder = async (order) => {
@@ -44,27 +46,30 @@ function Order(props) {
     <>
       <div className="order-list">
         <div className="order-list-items">
-          {orderItems.map((item) => (
+          {orderDetailDTOS.map((item) => (
             <div className="order-items-item">
               <span className="img">
                 <img src={item.image}></img>
               </span>
-              <span className="qty">Qty: {item.qty}</span>
-              <span className="name">{item.name}</span>
-              <span className="price">{formatPrice(item.salePrice)}</span>
+              <span className="qty">Qty: {item.quantity}</span>
+              <span className="name">{item.productName}</span>
+              <span className="price">{formatPrice(item.unitPrice)}</span>
             </div>
           ))}
         </div>
         <div className="toatalPrice">
-          <span>Tổng tiền: {formatPrice(totalPrice)}</span>
+          <span>Tổng tiền: {formatPrice(totalPrice)}đ</span>
         </div>
         <div className="order-info">
           <div className="order-info-address">
             <b>Địa chỉ : </b> {"  "}
-            {shippingAddress.name},{""}
-            {shippingAddress.province}, {shippingAddress.district},{"  "}
-            {shippingAddress.ward}, {shippingAddress.detail},{" "}
-            {shippingAddress.phone}
+            {address},{""}<br></br>
+            <b>Ngày tạo : </b> {"  "}
+            {createDate.substring(8,10)+"/"+createDate.substring(5,7)+"/"+createDate.substring(0,4)}{""}<br></br>
+            <b>Phí ship : </b> {"  "}
+            {formatPrice(shipPayment)}đ,{""}<br></br>
+            
+          
           </div>
         </div>
 

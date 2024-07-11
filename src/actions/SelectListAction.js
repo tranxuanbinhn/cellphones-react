@@ -2,9 +2,37 @@ import axios from "axios";
 
 export const getAllSelectList = () => async (dispatch) => {
     try {
-        const {data} = await axios.get('http://localhost:4000/selectList')
-        dispatch({type: 'GET_ALL_SELECT_LIST', payload: data})
+        const token = localStorage.getItem('accessToken');
+        
+        const {data} = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/admin/category/getall`, 
+            {
+                headers:{
+                    Authorization:`Bearer ${token}`,
+                }
+            }
+            )
+        console.log('category notnull',data);
+        dispatch({type: 'GET_ALL_SELECT_LIST', payload: data?.listResult})
     } catch (error) {
+    }
+}
+export const getAllBrand = () => async (dispatch) => {
+    try {
+    
+
+        const token = localStorage.getItem('accessToken');
+    
+        const {data} = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/admin/brand`, 
+            {
+                headers:{
+                    Authorization:`Bearer ${token}`,
+                }
+            }
+            )
+        console.log('dataakjd',data);
+        dispatch({type: 'GET_ALL_BRAND', payload: data?.listResult})
+    } catch (error) {
+        console.log('error', error);
     }
 }
 

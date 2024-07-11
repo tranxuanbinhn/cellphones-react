@@ -27,18 +27,18 @@ export const getAllProductByCategoryCode = (page, dir) => async (dispatch) => {
     let url = undefined;
     if(dir==undefined)
       {
-        url  = `http://localhost:8080/api/user/product/getallproductbycategory?categorycode=lap-top&page=${page}&limit=2`;
+        url  = `${process.env.REACT_APP_API_ENDPOINT}/api/user/product/getallproductbycategory?categorycode=lap-top&page=${page}&limit=2`;
       }
       else{
         if(dir === 'asc')
           {
-        url = `http://localhost:8080/api/user/product/fillterproduct?categorycode=lap-top&page=${page}&limit=2&orderby=price&dir=0`;
+        url = `${process.env.REACT_APP_API_ENDPOINT}/api/user/product/fillterproduct?categorycode=lap-top&page=${page}&limit=2&orderby=price&dir=0`;
 
           }
           else if(dir === 'desc')
             {
               
-        url = `http://localhost:8080/api/user/product/fillterproduct?categorycode=lap-top&page=${page}&limit=2&orderby=price&dir=1`;
+        url = `${process.env.REACT_APP_API_ENDPOINT}/api/user/product/fillterproduct?categorycode=lap-top&page=${page}&limit=2&orderby=price&dir=1`;
 
             }
       }
@@ -65,7 +65,7 @@ export const deleteAllProductInStore = () => async (dispatch) => {
 
 export const ascendingProduct = (page) => async (dispatch) => {
   try {
-    const { data } = await axios.get(`http://localhost:8080/api/user/product/fillterproduct?categorycode=lap-top&page=1&limit=2&orderby=price&dir=0`);
+    const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/user/product/fillterproduct?categorycode=lap-top&page=1&limit=2&orderby=price&dir=0`);
     console.log('data asc', data);
     console.log('number page', page);
     const asc = {
@@ -80,7 +80,7 @@ export const ascendingProduct = (page) => async (dispatch) => {
 
 export const descendingProduct = (page) => async (dispatch) => {
   try {
-    const { data } = await axios.get(`http://localhost:8080/api/user/product/getallproductbycategory?categorycode=lap-top&page=${page}&limit=2&orderby=price&dir=1`);
+    const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/user/product/getallproductbycategory?categorycode=lap-top&page=${page}&limit=2&orderby=price&dir=1`);
     console.log('data desc', data);
     console.log('number page', page);
     const desceending = {
@@ -100,7 +100,7 @@ export const filterProduct = (name) => async (dispatch, getState) => {
 export const filterProductByPrice =
   (startPrice, endPrice, page) => async (dispatch, getState) => {
     const { data } = await axios.get(
-      `http://localhost:8080/api/user/product/filterbyprice?minprice=${startPrice}&maxprice=${endPrice}&page=${page}&limit=2`
+      `${process.env.REACT_APP_API_ENDPOINT}/api/user/product/filterbyprice?minprice=${startPrice}&maxprice=${endPrice}&page=${page}&limit=2`
     );
 
     dispatch({
@@ -115,19 +115,61 @@ export const editCurrentPage = (page) => async (dispatch) => {
 
 export const paginationProduct = (page) => async (dispatch) => {
   try {
-    const data = await axiosClient.get(
-      `/products/pagination/${page}`
-    );
+    const token = localStorage.getItem('accessToken');
+    const request = {
+      url:`${process.env.REACT_APP_API_ENDPOINT}/api/admin/product?page=${page}&limit=2`,
+      headers:{
+        Authorization: ` Bearer ${token}`
+      },
+      method:'get'
+      
+    }
+    const {data} = await axios(request);
+    console.log('data is ',data);
     dispatch({ type: "PAGINATION_PRODUCT", payload: data });
   } catch (error) {
   }
 };
-
-
+export const deleteReview = (id) => async (dispatch) => {
+  try{
+    const token = localStorage.getItem('accessToken');
+    const { data } = await axios.delete(
+      `${process.env.REACT_APP_API_ENDPOINT}/api/admin/review/${id}`,{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+  }
+  catch(error)
+  {
+    console.log(error)
+  }
+}
+export const getallreviewProduct = (id) => async (dispatch) => {
+  try {
+   
+    console.log('id',id);
+    const token = localStorage.getItem('accessToken');
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API_ENDPOINT}/api/admin/review?page=1&limit=2&id=${id}`,{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    console.log('data', data);
+    dispatch({ type: "GET_ALL_REVIEW_PRODUCT", payload: data });
+  } catch (error) {
+    dispatch({ type: "GET_ALL_REVIEW_PRODUCT_FAIL", payload: error.message });
+  }
+}
 export const getproductById = (id) => async (dispatch) => {
   try {
+   
+    console.log('id',id);
     const { data } = await axios.get(
-      `http://localhost:8080/api/user/product/detail/${id}`
+      `${process.env.REACT_APP_API_ENDPOINT}/api/user/product/detail/${id}`
     );
     dispatch({ type: "GET_PRODUCT_BY_ID", payload: data });
   } catch (error) {
@@ -142,49 +184,60 @@ export const removeProductById = (id) => async (dispatch) => {
 export const saveProduct = (product) => async (dispatch, getState) => {
   
   try {
+   console.log('id product', product)
+
+   console.log('id gettttt', product.get('id'))
+    const token = localStorage.getItem('accessToken');
     const {
       userSignin: { userInfo },
     } = getState();
-    if (!product.get('_id')) {
+    if (product.get("id")===null||product.get("id")===undefined ) {
+     
       const { data } = await axios.post(
-        "http://localhost:4000/products/create",
+        `${process.env.REACT_APP_API_ENDPOINT}/api/admin/product`,
         product,
         {
           headers: {
-            Authorization: `Bearer ${userInfo.token}`,
+            Authorization: `Bearer ${token}`
+          
           },
         }
       );
       dispatch({ type: "SAVE_PRODUCT", payload: data });
       // document.location.href = '/admin/product';
     } else {
+      console.log('do thissssssss');
+      console.log('data', product);
+      const id = product.get("id");
+      product.delete('id');
       const { data } = await axios.put(
-        `http://localhost:4000/products/update`,
+        `${process.env.REACT_APP_API_ENDPOINT}/api/admin/product/${id}`,
         product,
         {
           headers: {
-            Authorization: `Bearer ${userInfo.token}`,
+            Authorization: `Bearer ${token}`
+          
           },
         }
       );
+      console.log('update', data)
       dispatch({ type: "SAVE_PRODUCT", payload: data });
       // document.location.href = '/admin/product';
     }
   } catch (error) {
+    console.log('error', error)
     dispatch({ type: "SAVE_PRODUCT_FAIL", payload: error.message });
   }
 };
 
 export const DeleteProduct = (productId) => async (dispatch, getState) => {
   try {
-    const {
-      userSignin: { userInfo },
-    } = getState();
+    const token = localStorage.getItem('accessToken');
     const { data } = await axios.delete(
-      `http://localhost:4000/products/delete/${productId}`,
+      `${process.env.REACT_APP_API_ENDPOINT}/api/admin/product/${productId}`,
       {
         headers: {
-          Authorization: `Bearer ${userInfo.token}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -200,7 +253,7 @@ export const clearSearchProduct = () => (dispatch) => {
 export const searchProduct = (name, page) => async (dispatch, getState) => {
   try {
     const { data } = await axios.get(
-      `http://localhost:8080/api/user/product/search?name=${name}&page=${page}&limit=2`
+      `${process.env.REACT_APP_API_ENDPOINT}/api/user/product/search?name=${name}&page=${page}&limit=2`
     );
     const searchData ={
       name: name,
@@ -214,17 +267,48 @@ export const searchProduct = (name, page) => async (dispatch, getState) => {
   }
 };
 
-export const reviewProduct = (id, review) => async (dispatch, getState) => {
+export const reviewProduct = (review) => async (dispatch, getState) => {
   try {
-    const { data } = await axios.post(
-      `http://localhost:4000/products/rate/${id}`,
-      review
-    );
+    const token = localStorage.getItem('accessToken');
+    const request = {
+      method:'post',
+      url:`${process.env.REACT_APP_API_ENDPOINT}/api/user/review/add`,
+      headers:{
+        Authorization:`Bearer ${token}`
+      }, 
+      data:review
+    }
+    console.log('request', request);
+
+    const { data } = await axios(request);
+    console.log('data post review',data);
+    
+  } catch (error) {
+    dispatch({ type: "REVIEW_PRODUCT_FAIL", payload: error });
+  }
+};
+
+export const getReviewProduct = (id, page) => async (dispatch, getState) => {
+  try {    
+    console.log('do this ai');
+    const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/user/review?page=${page}&limit=2&id=${id}`);
     dispatch({ type: "REVIEW_PRODUCT", payload: data });
   } catch (error) {
     dispatch({ type: "REVIEW_PRODUCT_FAIL", payload: error });
   }
 };
+export const getRateProduct = (id) => async (dispatch) => {
+  try{
+     const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/user/review/getrate?id=${id}`);
+     console.log('rateaaa',data);
+    dispatch({ type: "GET_RATE", payload: data });
+  }
+  catch(error)
+  {
+    
+  }
+}
+
 
 export const commentProduct = (id, comment) => async (dispatch, getState) => {
   try {

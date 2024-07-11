@@ -24,8 +24,13 @@ function Login(props) {
   };
 
   useEffect(() => {
-    if (userInfo) {
+    if (userInfo && localStorage.getItem('role')==="user") {
+     
       history.push("/");
+    }
+    else if(userInfo && localStorage.getItem('role')==="admin")
+    {
+      history.push("/admin");
     }
   });
 

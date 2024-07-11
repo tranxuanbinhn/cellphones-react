@@ -5,7 +5,8 @@ import { SignoutUser } from "../../actions/UserAction";
 import { useHistory } from "react-router";
 import { searchProduct,clearSearchProduct } from "../../actions/ProductAction";
 import { Link } from "react-router-dom";
-import {GetAllProductInCart} from '../../actions/CartAction'
+import {GetAllProductInCart} from '../../actions/CartAction';
+import { isAdmin } from "../../untils";
 
 import {
   DownOutlined,
@@ -17,22 +18,39 @@ function Header(props) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  
+  console.log('is Admin ', !isAdmin);
 
   const [showAccount, setShowAccount] = useState(false);
   const [showAccount2, setShowAccount2] = useState(false);
 
   const userSignin = useSelector((state) => state.userSignin);
+  const tokenvalue = useSelector((state) => state.token);
   const { userInfo, error } = userSignin;
+  
   const [search, setSearch] = useState("");
+  const checkUser = () =>{
+    console.log('token value ', userSignin);
+    if(userInfo?.roles[0]==='ROLE_ADMIN')
+      {
+       history.push('/admin');
+      }
+  }
   useEffect(()=>
     {
       console.log('Do')
       dispatch(GetAllProductInCart());
     },[])
+    //useEffect(()=>{
+    //  if(tokenvalue === false)
+    //    {
+    //      dispatch(SignoutUser());
+    //      history.push('/login')
+    //    }
+    //}, [])
   const cartItems = useSelector((state) => state.cart.cartItems);
-  console.log('cartItems is',cartItems);
-  const amount = cartItems.reduce((a, b) => a + b.quantity, 0);
+  console.log('cartItems nes is',userInfo);
+  const amount = cartItems? cartItems.reduce((a, b) => a + b.quantity, 0):0;
+  console.log('localStorage', localStorage);
 
   const [menu, setMenu] = useState(true);
 
@@ -76,12 +94,12 @@ function Header(props) {
             <Link to="/"> Trang Chủ </Link>
           </li>
           <li>
-            <Link to="/product"> Sản Phẩm </Link>
+        
           </li>
           {userInfo ? (
             <li onClick={() => setShowAccount2(!showAccount2)}>
               <Link>
-                {userInfo.name}
+                {userInfo.username}
                 <DownOutlined style={{ fontSize: "14px" }} />
               </Link>
               {showAccount2 ? (

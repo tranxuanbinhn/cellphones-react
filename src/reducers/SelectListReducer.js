@@ -3,6 +3,9 @@ export const SelectListReducer = (state = {}, action) => {
     case "GET_ALL_SELECT_LIST": {
       return { ...state, List: action.payload };
     }
+    case "GET_ALL_BRAND": {
+      return { ...state, Brand: action.payload };
+    }
     case "CREATE_SELECT_LIST_ITEM": {
       return { ...state, List: action.payload };
     }

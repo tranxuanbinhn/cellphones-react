@@ -11,10 +11,12 @@ import { AppstoreAddOutlined, ToolOutlined } from "@ant-design/icons";
 function AdminProduct(props) {
   const dispatch = useDispatch();
   const currentPage = useSelector((state) => state.allProduct.currentPage);
-  const { products } = useSelector((state) => state.allProduct.product);
+  const  product  = useSelector((state) => state.allProduct.product);
+  
 
   useEffect(() => {
-    dispatch(paginationProduct(currentPage));
+    const page = currentPage===undefined?1:currentPage;
+    dispatch(paginationProduct(page));
   }, [dispatch, currentPage]);
 
   return (
@@ -23,13 +25,11 @@ function AdminProduct(props) {
         <Link to="/admin/product/create" className="add-product">
           <AppstoreAddOutlined />
         </Link>
-        <Link to="/admin/product/update/info" className="add-product">
-          <ToolOutlined></ToolOutlined>
-        </Link>
+        
       </div>
 
-      {products ? (
-        <ListProduct listProducts={products}></ListProduct>
+      {product?.listResult ? (
+        <ListProduct listProducts={product}></ListProduct>
       ) : (
         "Loading"
       )}

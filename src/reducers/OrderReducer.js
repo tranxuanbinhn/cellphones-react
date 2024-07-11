@@ -1,3 +1,4 @@
+import { act } from "react";
 
 export const getAllOrderReducer = (state = {}, action) => {
   switch (action.type) {
@@ -48,6 +49,17 @@ export const getAllOrderReducer = (state = {}, action) => {
   }
 };
 
+export const resultOrderReducer = (state = null, action) => {
+  switch(action.type)
+  {
+    case "RESULT_FALSE":{
+      return false;
+    }
+    case "RESULT_TRUE":{
+      return true;
+    }
+  }
+}
 export const addressReducer = (state = {}, action) => {
   switch (action.type) {
     case "GET_ALL_PROVINCE": {
@@ -59,6 +71,9 @@ export const addressReducer = (state = {}, action) => {
 
     case "GET_ALL_WARD": {
       return { ...state, ward: action.payload };
+    }
+    case "GET_ALL_FEE": {
+      return { ...state, fee: action.payload };
     }
 
     default:

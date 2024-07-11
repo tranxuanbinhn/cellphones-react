@@ -9,8 +9,9 @@ import {
   ShopOutlined,
   OrderedListOutlined,
   WechatOutlined,
+  LogoutOutlined
 } from "@ant-design/icons";
-
+import {SignoutUser}from "../../../../actions/UserAction"
 function Sidebar(props) {
   const dispatch = useDispatch();
   const location = useLocation()
@@ -20,7 +21,9 @@ function Sidebar(props) {
   if(orderPendding){
     totalNewOrder = orderPendding.length
   }
-
+  const handleLogout = ()=>{
+    dispatch(SignoutUser());
+  }
   useEffect(() => {
     const getNewOrder = () => {
       dispatch(GetAllOrderPendding());
@@ -63,6 +66,11 @@ function Sidebar(props) {
               </div>
           </p>
         </Link>
+        <div className={'sidebar-list-item'}>
+        
+          <LogoutOutlined></LogoutOutlined>
+          <span onClick={()=>handleLogout()} style={{marginLeft:'10px'}}>Logout</span>
+        </div>
         {/* <Link to="/admin/chat" className={location.pathname === '/admin/chat' ? 'sidebar-list-item active': 'sidebar-list-item'}>
           <span>
             <WechatOutlined></WechatOutlined>

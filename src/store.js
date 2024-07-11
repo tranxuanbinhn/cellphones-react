@@ -6,9 +6,13 @@ import { CartReducer} from './reducers/CartReducer'
 import { addressReducer, getAllOrderReducer, getOrderByUserReducer, OrderInfoReducer, orderPayReducer } from './reducers/OrderReducer'
 import { ChatReducer } from './reducers/ChatReducer'
 import { SelectListReducer, UpdateSelectListReducer } from "./reducers/SelectListReducer";
-import { ListTypeProductReducer, TypeProductReducer } from './reducers/ListTypeProductReducer'
+import { ListTypeProductReducer, TypeProductReducer } from './reducers/ListTypeProductReducer';
+import { TokenReducer } from './reducers/TokenReducer'
 import { InfoGhnReducer } from './reducers/GhnReducer'
 import { Message } from './reducers/MessageReducer';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; 
+
 
 
 const initialState = {
@@ -45,8 +49,16 @@ const reducer = combineReducers({
   updateSelect: UpdateSelectListReducer,
   allTypeProduct: ListTypeProductReducer,
   detailType: TypeProductReducer,
-  message:Message
+  message:Message,
+  token:TokenReducer
 });
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+const persistedReducer = persistReducer(persistConfig, reducer);
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducer,initialState, composeEnhancer(applyMiddleware(thunk)));
-export default store;
+const store = createStore(persistedReducer ,initialState, composeEnhancer(applyMiddleware(thunk)));
+const persistor = persistStore(store);
+
+export { store, persistor };

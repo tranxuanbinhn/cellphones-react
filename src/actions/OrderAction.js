@@ -2,24 +2,75 @@ import axios from "axios";
 let config = {
   headers: {
     "Content-Type": "application/json",
-    'Token': "b1e1bbcb-ef7f-11eb-9388-d6e0030cbbb7",
+    'Token': "f0ad61a5-e456-11ee-aebc-56bc015a6b03",
   },
 };
 
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
-    const {
-      userSignin: { userInfo },
-    } = getState();
-    const { data } = await axios.post(
-      "http://localhost:4000/order/create",
-      order,
-      {
-        headers: {
-          Authorization: `Bearer ${userInfo.token}`,
-        },
+    const token = localStorage.getItem('accessToken');
+
+    const dataorder = {
+      method: order.method,
+      cartproductIds:order.cartProductId,
+      address:order.address
+
+    }
+    const options = {
+      method:'post',
+      url:`${process.env.REACT_APP_API_ENDPOINT}/api/user/order/buy`,
+      data:order,
+      headers:{
+        Authorization:`Bearer ${token}`,
+            'Content-Type':'application/json'
       }
-    );
+    }
+    console.log('option is', options);
+    const { data } = await axios(options);
+    console.log('data order llll',data);
+   const data2 = {
+    method:order.method,
+    status:order.status,
+    orderID:data.id
+   }
+   const option2 = {
+    method:'post',
+    url:`${process.env.REACT_APP_API_ENDPOINT}/api/user/payment`,
+    data:data2,
+    headers:{
+      Authorization:`Bearer ${token}`,
+          'Content-Type':'application/json'
+    }
+  }
+  console.log('option2', option2);
+
+  const result2 = await axios(option2);
+  console.log('result2', result2);
+
+  //Delete order in cart
+
+
+    const config = {
+        headers:{
+            Authorization:`Bearer ${token}`,
+            'Content-Type':'application/json'
+        }
+    }
+    try{
+        const respone = axios.request({
+            url:`${process.env.REACT_APP_API_ENDPOINT}/api/user/cart/delete`
+            ,method:'DELETE',
+            header:config.headers,
+            data:order.cartproductIds
+        });
+        console.log('respone10', respone)
+    }
+    catch(error)
+    {
+        console.log(error)
+    }
+
+
     dispatch({ type: "ORDER_CREATE-SUCCESS", payload: data });
     dispatch({ type: "CART_EMTY" });
     localStorage.removeItem("cartItems");
@@ -50,7 +101,8 @@ export const updateOrder = (orderId, order) => async (dispatch, getState) => {
 export const cancelOrder = (orderId) => async (dispatch, getState) => {
   try {
     const { data } = await axios.post(
-      `http://localhost:4000/order/cancel/${orderId}`,
+      `${process.env.REACT_APP_API_ENDPOINT}/api/user/order/cancel/${orderId}`,
+     
     );
     dispatch({ type: "CANCEL_ORDER", payload: data });
   } catch (error) {
@@ -59,14 +111,13 @@ export const cancelOrder = (orderId) => async (dispatch, getState) => {
 
 export const getAllOrder = () => async (dispatch, getState) => {
   try {
-    const {
-      userSignin: { userInfo },
-    } = getState();
-    const { data } = await axios.get(`http://localhost:4000/order/`, {
+  const token = localStorage.getItem('accessToken');
+    const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/admin/order`, {
       headers: {
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
+    console.log('data order', data);
     dispatch({ type: "GET_ALL_ORDER", payload: data });
   } catch (error) {
   }
@@ -201,47 +252,83 @@ export const PaidOrder = (orderId) => async (dispatch, getState) => {
 export const GetAllProvince = () => async (dispatch, getState) => {
   try {
     const { data } = await axios.get(
-      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province`,
+      `https://online-gateway.ghn.vn/shiip/public-api/master-data/province`,
       config
     );
+    console.log('data province', data)
     dispatch({ type: "GET_ALL_PROVINCE", payload: data });
   } catch (error) {
   }
 };
+export const GetShippingPayment = (shippayment) => async (dispatch) =>{
+  const options = {
+    method:'post',
+    url:`https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee`,
+    data:shippayment,
+    headers:{"Content-Type": "application/json",
+        'Token': "f0ad61a5-e456-11ee-aebc-56bc015a6b03"}
+  }
+  try{
+    const {data} = await axios(options);
+
+    dispatch({type:'GET_ALL_FEE', payload: data});
+
+  }
+  catch(error)
+  {
+
+  }
+}
 
 export const GetAllDistrict = (provinceId) => async (dispatch, getState) => {
   const newConfig = {
     headers: {
-      Token: "b1e1bbcb-ef7f-11eb-9388-d6e0030cbbb7"
-    },
-    params: {
-      province_id: provinceId
+      Token: "f0ad61a5-e456-11ee-aebc-56bc015a6b03"
     }
+   
+  }
+  const province ={
+    province_id: provinceId
   }
   try {
-    const { data } = await axios.get(
-      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district`,
-      newConfig
-    );
+    console.log('data district', province);
+    const options = {
+      method:'post',
+      url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/district`,
+      data:province,
+      headers:{ "Content-Type": "application/json",
+        'Token': "f0ad61a5-e456-11ee-aebc-56bc015a6b03",}
+    }
+    const { data } = await axios(options);
+    console.log('data district', data);
     dispatch({ type: "GET_ALL_DISTRICT", payload: data });
   } catch (error) {
   }
 };
 
 export const GetAllWard = (districtId) => async (dispatch, getState) => {
+  console.log('districtId', districtId)
   const newConfig = {
     headers: {
-      Token: "b1e1bbcb-ef7f-11eb-9388-d6e0030cbbb7"
-    },
-    params: {
-      district_id:districtId
+      Token: "f0ad61a5-e456-11ee-aebc-56bc015a6b03"
+    }
+  }
+  const district={
+    district_id:districtId
+  }
+  const options = {
+    method:'post',
+    url:`https://online-gateway.ghn.vn/shiip/public-api/master-data/ward`,
+    data:district,
+    headers:{
+       "Content-Type": "application/json",
+        'Token': "f0ad61a5-e456-11ee-aebc-56bc015a6b03"
     }
   }
   try {
-    const { data } = await axios.get(
-      `https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?${districtId}`,
-      newConfig
-    );
+
+    const { data } = await axios(options)
+    console.log('data ward', data);
     dispatch({ type: "GET_ALL_WARD", payload: data });
   } catch (error) {
   }
@@ -249,14 +336,13 @@ export const GetAllWard = (districtId) => async (dispatch, getState) => {
 
 //-----------------------  user
 
-export const getOrderByUser = (idUser) => async (dispatch, getState) => {
+export const getOrderByUser = () => async (dispatch, getState) => {
   try {
-    const {
-      userSignin: { userInfo },
-    } = getState();
-    const { data } = await axios.get(`http://localhost:4000/order/${idUser}`, {
+    const token = localStorage.getItem('accessToken');
+    const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/user/order`, {
       headers: {
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${token}`,
+         'Content-Type':'application/json'
       },
     });
     dispatch({ type: "GET_ORDER_BY_USER", payload: data });
@@ -266,14 +352,12 @@ export const getOrderByUser = (idUser) => async (dispatch, getState) => {
 
 
 
-export const getOrderPenddingByUser = (idUser) => async (dispatch, getState) => {
+export const getOrderPenddingByUser = () => async (dispatch, getState) => {
   try {
-    const {
-      userSignin: { userInfo },
-    } = getState();
-    const { data } = await axios.get(`http://localhost:4000/order/orderPendding/${idUser}`, {
+    const token = localStorage.getItem("accessToken")
+    const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/user/order/pendding`, {
       headers: {
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     dispatch({ type: "GET_ORDER_PENDDING_BY_USER", payload: data });
@@ -334,5 +418,6 @@ export const payOrder = (order, paymentResult) => async (dispatch, getState) => 
 };
 
 export const OrderInfo = (orderInfo) => async (dispatch, getState) => {
+  console.log('orderInfo', orderInfo);
   dispatch({ type: "ORDER_INFO", payload: orderInfo });
 };

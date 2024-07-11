@@ -9,7 +9,7 @@ function DetailInfo(props) {
     const { product } = props;
     
     function handleAddProduct(product) {
-        const action = AddToCart(product)
+        const action = AddToCart(product, true)
         dispatch(action)
     }
 
@@ -49,7 +49,7 @@ function DetailInfo(props) {
             <div className='information'>
                 <h2>Thông tin sản phẩm</h2>
                 <div className='information-inner'> 
-                <li className='information-inner-tech'><p>Description: </p> <div>{product.description}</div></li>
+                <li className='-inner-tech'><p>Description: </p> <div>{product.description}</div></li>
                 <li className='information-inner-tech'><p>Color: </p> <div>{product.color}</div></li>
                 <li className='information-inner-tech'><p>Number stock: </p> <div>{product.numberStock}</div></li>
                 <li className='information-inner-tech'><p>Brand name: </p> <div>{product.brandName}</div></li>

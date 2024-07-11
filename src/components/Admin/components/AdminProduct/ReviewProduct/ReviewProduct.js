@@ -1,20 +1,29 @@
 import React, { useEffect, useRef } from "react";
 import "./ReviewProduct.css";
+import { DeleteOutlined, EditOutlined,InfoCircleOutlined } from "@ant-design/icons";
+
 import { useDispatch, useSelector } from "react-redux";
 import { Editor } from "@tinymce/tinymce-react";
 import {
   BlogProduct,
-  getproductById,
+  getallreviewProduct,
+  deleteReview
 } from "../../../../../actions/ProductAction";
 import { useParams } from "react-router-dom";
-
+import {Rate, Row, Col, Divider, Progress} from 'antd'
+import { Link } from "react-scroll";
 export default function ReviewProduct() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const editorRef = useRef(null);
 
-  const detailProduct = useSelector((state) => state.getProductById.product);
-
+  const reviews = useSelector((state) => state.allProduct.allreviews);
+  console.log('all review', reviews);
+  console.log('all result', reviews?.listResult);
+  const handleDeleteProduct = (id) => {
+    dispatch(deleteReview(id));
+    window.location.reload();
+  }
   const log = () => {
     if (editorRef.current) {
       const blogContent = String(editorRef.current.getContent());
@@ -25,7 +34,7 @@ export default function ReviewProduct() {
   };
 
   useEffect(() => {
-    dispatch(getproductById(id));
+    dispatch(getallreviewProduct(id));
   }, [dispatch, id]);
 
   return (
@@ -34,34 +43,33 @@ export default function ReviewProduct() {
         <span className="review-title">Review </span>
 
         <div className="review-content">
-          {detailProduct ? (
-            <Editor
-              apiKey="cmlltcvw2ydrtenwdgwdwqqrvsje6foe8t5xtyaq6lo2ufki"
-              language='vi'
-              onInit={(evt, editor) => (editorRef.current = editor)}
-              initialValue={detailProduct.blog}
-              init={{
-                height: 500,
-                menubar: "file edit view insert format tools table tc help",
-                plugins: [
-                  "advlist autolink lists link image charmap print preview anchor",
-                  "searchreplace visualblocks code fullscreen",
-                  "insertdatetime media table paste code help wordcount",
-                ],
-                toolbar:
-                  "undo redo | formatselect | " +
-                  "bold italic backcolor | alignleft aligncenter " +
-                  "alignright alignjustify | bullist numlist outdent indent | " +
-                  "removeformat | help",
-                content_style:
-                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-              }}
-            />
-          ) : (
-            ""
-          )}
-          <button onClick={log}>Add Review Product</button>
+  {reviews?.listResult ? (
+    <div className="allReview">
+      {reviews.listResult.map((item) => (
+        <div key={item.id} className="danhgia">
+           <p className="name" style={{ fontWeight: 'bold', textAlign:'right', fontSize: '15px' }}>
+            <p className="delete-product"
+        onClick={(e) => handleDeleteProduct(item.id)}
+      > <DeleteOutlined></DeleteOutlined></p>
+          </p>
+          <p className="name" style={{ fontWeight: 'bold', textAlign:'left', fontSize: '15px' }}>
+            {item.userName}
+          </p>
+          <div className="cmt" style={{ display: 'flex' }}>
+            <Rate style={{ color: 'orange', fontSize: '14px' }} value={item.rate} disabled={true} />
+            <p className="cmt" style={{ marginLeft: '1rem' }}>{item.comment}</p>
+            
+          </div>
+          <Divider />
+        
         </div>
+      ))}
+    </div>
+  ) : (
+    ""
+  )}
+</div>
+
       </div>
     </section>
   );

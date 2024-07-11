@@ -16,7 +16,7 @@ function MenuOrder(props) {
 
   useEffect(() => {
     const getAllOrderPenddingAndShippingByUser = async () => {
-      await dispatch(getOrderPenddingByUser(userInfo._id));
+      await dispatch(getOrderPenddingByUser());
       dispatch(getOrderShippingByUser(userInfo._id));
     };
 

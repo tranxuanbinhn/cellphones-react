@@ -1,5 +1,5 @@
 
-export const CartReducer = (state = {cartItems: []}, action) => {
+export const CartReducer = (state = {cartItems: [],cartBuy:[]}, action) => {
     switch (action.type) {
         case 'ADD_TO_CART': {
             let newList = [...state.cartItems]
@@ -21,7 +21,7 @@ export const CartReducer = (state = {cartItems: []}, action) => {
             }
         }
             
-        case 'GET_ALL_PRODUCT':{
+        case 'GET_ALL_PRODUCT_CART':{
             let newList = action.payload;
             console.log('newList is',newList);
             state.cartItems =[];
@@ -29,6 +29,16 @@ export const CartReducer = (state = {cartItems: []}, action) => {
             return {
                 ...state,
                 cartItems:newList
+            }
+        }
+        case 'GET_PRODUCT_BUY':{
+            let newList = action.payload;
+       
+            state.cartItems =[];
+            
+            return {
+                ...state,
+                cartBuy:newList
             }
         }
         case 'DELETE_TO_CART': {

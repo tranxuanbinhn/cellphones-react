@@ -11,7 +11,7 @@ function Admin(props) {
   const { userInfo, error } = userSignin;
   const history = useHistory();
 
-  if (!userInfo || !userInfo.isAdmin) {
+  if (!userInfo || !userInfo?.roles[0]) {
     history.push('/')
   }
 

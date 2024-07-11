@@ -1,6 +1,7 @@
 const initialState = {
     product:[],
-    currentPage: 1
+    currentPage: 1,
+    review:[]
 }
 
 export const getAllProductReducer = (state = initialState, action) => {
@@ -30,7 +31,12 @@ export const getAllProductReducer = (state = initialState, action) => {
             //console.log('hello', updatedProducts);
             return {...state, product: action.payload}
            }
-
+        case 'GET_ALL_REVIEW_PRODUCT':{
+            return {...state, allreviews: action.payload}
+        }
+        case 'GET_ALL_REVIEW_PRODUCT_ERROR':{
+            return {...state, allreviews: action.payload}
+        }
         case 'GET_ALL_PRODUCT_FAIL':
             return {...state, error: action.payload}
 
@@ -39,6 +45,7 @@ export const getAllProductReducer = (state = initialState, action) => {
             newList = newList.sort((a,b) => b.salePrice - a.salePrice)
             return {...state, product: newList}
         }
+        
 
         case 'DESCENDING_PRODUCT':{
             let newList = [...state.product]
@@ -131,7 +138,7 @@ export const getProductByIdReducer = (state = {}, action) => {
         }
 
         case 'REVIEW_PRODUCT':{
-            return {...state, product: action.payload}
+            return {...state, reviews: action.payload}
         }
 
         case 'REVIEW_PRODUCT_FAIL':{
@@ -144,6 +151,12 @@ export const getProductByIdReducer = (state = {}, action) => {
 
         case 'COMMENT_PRODUCT_FAIL':{
             return {...state, error: action.payload}
+        }
+        case 'GET_RATE':{
+            return {...state, rate: action.payload}
+        }
+        case 'DELETE_RATE':{
+            return {...state, rate:{}}
         }
 
         case 'REP_COMMENT_PRODUCT':{

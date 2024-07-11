@@ -9,7 +9,7 @@ import {
 import { useHistory, useParams } from "react-router-dom";
 import { getAllBrand, getAllSelectList } from "../../../../actions/SelectListAction";
 
-function AdminUpdate(props) {
+function AdminProductDetail(props) {
   const { register, handleSubmit } = useForm();
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -47,30 +47,10 @@ function AdminUpdate(props) {
   };
 
   const onSubmit = async (data) => {
-   console.log('dataa', data)
-    const formData = new FormData();
-    formData.append('productName', data.productName);
-    formData.append('description', data.description);
-    formData.append('size',data.size);
-    formData.append('color',data.color);
-    formData.append('price',data.price);
-    formData.append('weight',data.weight);
-    formData.append('height',data.height);
-    formData.append('length',data.length);
-    formData.append('width',data.width);
-    formData.append('file',image);
-    formData.append('screensize',data.screensize);
-    formData.append('screentech',data.screentech);
-    formData.append('ramstorage',data.ramstorage);
-    formData.append('internalmemory',data.internalmemory);
-    formData.append('os',data.os);
-    formData.append('id',data.id);
-    formData.append('brandName',data.brandName);
-    formData.append('categoryName',data.categoryName);
-    formData.forEach((value, key) => {
-      console.log(key, value);
-    });
-    await dispatch(saveProduct(formData));
+   
+    data.image = image;
+    console.log('image', image)
+    await dispatch(saveProduct(data));
     history.push("/admin/product");
   };
 
@@ -97,12 +77,12 @@ function AdminUpdate(props) {
 
   return (
     <div className="admin-create">
-      <span>Update Product</span>
+      <span>Product Detail</span>
       {detailProduct ? (
         <form
-        className="admin-create-product"
-        onSubmit={handleSubmit(onSubmit)}
-        encType="multipart/form-data"
+          className="admin-create-product"
+          onSubmit={handleSubmit(onSubmit)}
+          encType="multipart/form-data"
         >
             <input
             {...register("id")}
@@ -110,90 +90,126 @@ function AdminUpdate(props) {
             defaultValue={detailProduct.id}
             readOnly
           ></input>
+           <span style={{maxWidth:'100px'}}>
+           <img style={{width:'100%'}} src={detailProduct.image}></img>
+           </span>
           <input
             {...register("productName")}
             placeholder="Name"
             defaultValue={detailProduct.productName}
-          ></input>
+          readOnly
+          >
+            
+          </input>
          
           <input
             {...register("size")}
             placeholder="Size"
           
             defaultValue={detailProduct.size}
-          ></input>
+          readOnly
+          >
+            
+          </input>
           <input
             {...register("price")}
             placeholder="Price"
             type="number"
             defaultValue={detailProduct.price}
-          ></input>
+          readOnly
+          >
+            
+          </input>
           <input
             {...register("color")}
             placeholder="Color"
          
             defaultValue={detailProduct.color}
-          ></input>
+          readOnly
+          >
+            
+          </input>
           <input
             {...register("description")}
             placeholder="description"
          
             defaultValue={detailProduct.description}
-          ></input>
+          readOnly
+          >
+            
+          </input>
           <input
             {...register("height")}
             placeholder="height"
          
             defaultValue={detailProduct.height}
-          ></input>
-          <input
-            {...register("length")}
-            placeholder="length"
-         
-            defaultValue={detailProduct.length}
-          ></input>
+          readOnly
+          >
+            
+          </input>
           <input
             {...register("internalmemory")}
             placeholder="internalmemory"
          
             defaultValue={detailProduct.internalmemory}
-          ></input>
+          readOnly
+          >
+            
+          </input>
           <input
             {...register("ramstorage")}
             placeholder="ramstorage"
          
             defaultValue={detailProduct.ramstorage}
-          ></input>
+          readOnly
+          >
+            
+          </input>
           <input
             {...register("screensize")}
             placeholder="screensize"
          
             defaultValue={detailProduct.screensize}
-          ></input>
+          readOnly
+          >
+            
+          </input>
           <input
             {...register("screentech")}
             placeholder="screentech"
          
             defaultValue={detailProduct.screentech}
-          ></input>
+          readOnly
+          >
+            
+          </input>
           <input
             {...register("weight")}
             placeholder="weight"
          
             defaultValue={detailProduct.weight}
-          ></input>
+          readOnly
+          >
+            
+          </input>
           <input
             {...register("size")}
             placeholder="size"
          
             defaultValue={detailProduct.size}
-          ></input>
+          readOnly
+          >
+            
+          </input>
            <input
             {...register("width")}
             placeholder="width"
          
             defaultValue={detailProduct.width}
-          ></input>
+          readOnly
+          >
+            
+          </input>
           
          
 
@@ -202,9 +218,9 @@ function AdminUpdate(props) {
                 <div className="select-type">
                   <select
                     {...register('categoryName')}
-                    defaultValue={detailProduct.categoryName}
+                    defaultValue={SelectList[0]?.categoryName}
                   >
-                   <option value={item.categoryName}>{item.categoryName}</option>
+                   <option>{SelectList[0]?.categoryName}</option>
                   </select>
                 </div>
               ))
@@ -214,20 +230,16 @@ function AdminUpdate(props) {
                 <div className="select-type">
                   <select
                     {...register('brandName')}
-                    defaultValue={detailProduct.brandName}
+                    defaultValue={Brands[0]?.brandName}
                   >
-                   <option value={item.brandName}>{item.brandName}</option>
+                   <option>{Brands[0]?.brandName}</option>
                   </select>
                 </div>
               ))
             : ""}
 
-          <input
-            type="file"
-            {...register("image")}
-            onChange={handleFileImageChange}
-          ></input>
-          <button type="submit">Update Product</button>
+         
+         
         </form>
       ) : (
         ""
@@ -236,4 +248,4 @@ function AdminUpdate(props) {
   );
 }
 
-export default AdminUpdate;
+export default AdminProductDetail;

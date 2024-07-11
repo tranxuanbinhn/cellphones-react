@@ -9,19 +9,26 @@ export default function VnPay() {
     const OrderPaid = {
       ...order,
       status: "pendding",
-      paymentMethod: "payOnline",
+      paymentMethod: "VNPAY",
     };
-
-    const { data } = await axios.post(
-      "http://localhost:4000/payment/create",
-      OrderPaid
-    );
-
-    if (data.code === "00") {
-      document.location = data.data;
+    console.log('order', order);
+    const token = localStorage.getItem('accessToken');
+    const option = {
+      url:`http://localhost:8080/api/vnpay/make?vnp_OrderInfor=thanhtoan&vnp_OrderType=100003&vnp_Amount=${order.totalProductShip}&vnp_Locale=vn`,
+      method: 'post', 
+      headers:{
+        Authorization:`Bearer ${token}`,
+            'Content-Type':'application/json'
+      }
     }
+    const { data } = await axios(option);
+    console.log('data', data);
+    window.location.href = data.redirect_url;
+    //if (data.code === "00") {
+    //  document.location = data.data;
+    //}
 
-    localStorage.removeItem("cartItems");
+    //localStorage.removeItem("cartItems");
   };
 
   return (

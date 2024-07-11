@@ -6,7 +6,7 @@ import {
 } from "../../../../actions/ProductAction";
 import { useHistory, Link } from "react-router-dom";
 import { formatPrice } from "../../../../untils/index";
-import { DeleteOutlined, EditOutlined, FormOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, FormOutlined,InfoCircleOutlined } from "@ant-design/icons";
 
 
 function Product(props) {
@@ -15,7 +15,7 @@ function Product(props) {
   const currentPage = useSelector((state) => state.allProduct.currentPage);
 
   const handleDeleteProduct = async (product) => {
-    await dispatch(DeleteProduct(product._id));
+    await dispatch(DeleteProduct(product.id));
     dispatch(paginationProduct(currentPage));
   };
 
@@ -25,9 +25,9 @@ function Product(props) {
       <td>
         <img src={product.image}></img>
       </td>
-      <td>{product.name}</td>
-      <td>{formatPrice(product.salePrice)}</td>
-      <td>{product.type}</td>
+      <td>{product.productName}</td>
+      <td>{formatPrice(product.price)}</td>
+      <td>{product.categoryName}</td>
       <td
         className="delete-product"
         onClick={(e) => handleDeleteProduct(product)}
@@ -35,13 +35,18 @@ function Product(props) {
         <DeleteOutlined />
       </td>
       <td className="update-product">
-        <Link to={`/admin/product/update/${product._id}`}>
+        <Link to={`/admin/product/update/${product.id}`}>
           <EditOutlined></EditOutlined>
         </Link>
       </td>
       <td className="review-product">
-        <Link to={`/admin/product/reviewProduct/${product._id}`} >
+        <Link to={`/admin/product/reviewProduct/${product.id}`} >
           <FormOutlined></FormOutlined>
+        </Link>
+      </td>
+      <td className="review-product">
+        <Link to={`/admin/product/detail/${product.id}`} >
+          <InfoCircleOutlined></InfoCircleOutlined>
         </Link>
       </td>
     </tr>

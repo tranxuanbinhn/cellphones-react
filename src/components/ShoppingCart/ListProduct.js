@@ -1,10 +1,10 @@
-import React, { useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import { useDispatch,useSelector  } from 'react-redux';
 import {
     Link,
     useHistory
 } from "react-router-dom";
-
+import {CartToBuy} from '../../actions/CartAction'
 
 import {formatPrice} from '../../untils/index'
 
@@ -12,11 +12,13 @@ import {AddToCart,AddToCart2, DeleteToCart, DeleteQtyProduct} from '../../action
 
 
 function ListProduct(props) {
+    const [productBuy, setProductBuy] = useState({});
     var userInfo = useSelector((state) => state.userSignin.userInfo);
     console.log('user infor',userInfo);
     const history = useHistory()
     const Order = () => {
         if (userInfo) {
+            dispatch(CartToBuy(productBuy))
           history.push("/order");
         } else {
           alert("ban can dang nhap");
@@ -60,9 +62,7 @@ function handleProductOut(product) {
     dispatch(action);
     window.location.reload();
 }
-const getAllCheckItems=()=>{
-    return Object.keys(checklistbox).filter((key)=>checklistbox[key]);
-}
+
 const { products } = props;
 console.log('product is', products);
 const totalPrice = products.reduce(
@@ -77,8 +77,10 @@ const totalPrice = products.reduce(
     0
   );
 console.log('list box',products.filter(product=>checklistbox[product.productId]));
-
-   
+useEffect(() => {
+    // Chỉ cập nhật productBuy khi products hoặc checklistbox thay đổi
+    setProductBuy(products.filter(product => checklistbox[product.productId]));
+  }, [products, checklistbox]);
 
     return (
         <div>

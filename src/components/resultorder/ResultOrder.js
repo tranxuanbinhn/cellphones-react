@@ -5,11 +5,8 @@ import { Link } from "react-router-dom";
 import { CheckOutlined } from '@ant-design/icons';
 import { useSelector , useDispatch} from "react-redux";
 import { createOrder, payOrder } from "../../actions/OrderAction";
-
-
-
-export default function VnPaySuccess() {
-  const dispatch = useDispatch();
+function ResultOrder(props){
+    const dispatch = useDispatch();
   const { order } = useSelector((state) => state.orderInfo);
 
   const location = useLocation();
@@ -64,11 +61,11 @@ export default function VnPaySuccess() {
     getResultVNPay();
   }, []);
   console.log('result', result);
-  return (
-    <section id="order-success">
+    return (
+        <section id="order-success">
       <div className="order-success">
         
-        <div> <span><CheckOutlined></CheckOutlined></span> <p>Đặt hàng thành công</p></div>
+        {result ?<div> <span><CheckOutlined></CheckOutlined></span> <p>Đặt hàng thành công</p></div>:<p style={{color:'red'}}>Có lỗi xảy ra</p>}
         {/* <Link to="">OK</Link> */}
         <div className="links">
           <Link to="/myOrder">Xem lại đơn hàng</Link>
@@ -77,5 +74,6 @@ export default function VnPaySuccess() {
 
       </div>
     </section>
-  );
+    );
 }
+export default ResultOrder;

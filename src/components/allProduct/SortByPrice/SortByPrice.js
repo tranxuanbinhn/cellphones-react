@@ -25,7 +25,7 @@ export default function SortByPrice(props) {
   const ThapDenCao = () => {
 
     const queryParams = new URLSearchParams(window.location.search);
-              queryParams.set('sort', 'desc');
+    queryParams.set('sort', 'asc'); 
                 // Lấy URL hiện tại và thêm chuỗi query parameter mới vào
       const newUrl = window.location.pathname + '?' + queryParams.toString();
   
@@ -36,7 +36,7 @@ export default function SortByPrice(props) {
 
   const CaoDenThap = () => {
    const queryParams = new URLSearchParams(window.location.search);
-    queryParams.set('sort', 'asc');
+      queryParams.set('sort', 'desc');
       // Lấy URL hiện tại và thêm chuỗi query parameter mới vào
 const newUrl = window.location.pathname + '?' + queryParams.toString();
 

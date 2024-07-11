@@ -6,7 +6,7 @@ import {
     useParams
 } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { getproductById } from '../../actions/ProductAction';
+import { getproductById,getReviewProduct ,getRateProduct} from '../../actions/ProductAction';
 import CommentProduct from './CommentProduct';
 import BlogContent from './BlogContent';
 
@@ -19,8 +19,11 @@ function Detail(props) {
 
 
     useEffect(() => {
-        dispatch(getproductById(id))
-    }, [dispatch])
+        dispatch(getproductById(id));
+       
+        
+    }, [dispatch,id])
+   
 
     return (
         <section id="detail">
@@ -38,16 +41,14 @@ function Detail(props) {
                     </div>
                     <DetailInfo  product={detailProduct}></DetailInfo>
                 </div>
-                {/*<div>
-                    <BlogContent></BlogContent>
-                </div>*/}
-                {/*<div>
-                    <RateStar></RateStar>
-                </div>*/}
-                {/*<div>
-                    <CommentProduct></CommentProduct>
-                </div>*/}
                 
+                <div>
+                    <RateStar></RateStar>
+                </div>
+             {/*<div>
+                    <CommentProduct></CommentProduct>
+                </div>
+                */}
             </div>
             ) : ''
             }

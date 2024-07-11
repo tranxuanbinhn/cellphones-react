@@ -13,6 +13,9 @@ import ResetScroll from './components/ResetScroll/ResetScroll';
 import MyOrderPage from './pages/MyOrderPage';
 import ChatPage from './pages/ChatPage';
 import PaymentPage from './pages/PaymentPage';
+import ResultPage from './pages/ResultPage';
+import PrivateRoute from './privateRoute'
+
 import OrderSuccessPage from './pages/OrderSuccessPage'
 
 function App() {
@@ -23,9 +26,9 @@ function App() {
         
         <ResetScroll></ResetScroll>
 
-        <Route path="/" exact>
+        <PrivateRoute path="/" exact>
           <HomePage></HomePage>
-        </Route>
+        </PrivateRoute>
 
         <Route path="/login">
           <LoginPage></LoginPage>
@@ -48,6 +51,9 @@ function App() {
         <Route path='/order'>
           <OrderPage></OrderPage>
         </Route>
+        <Route path='/resultorder'>
+          <ResultPage></ResultPage>
+        </Route>
         <Route path='/orderSuccess'>
           <OrderSuccessPage></OrderSuccessPage>
         </Route>
@@ -66,9 +72,8 @@ function App() {
           <ChatPage></ChatPage>
         </Route>
 
-        <Route path='/admin'>
-          <AdminPage></AdminPage>
-        </Route>
+        <PrivateRoute path='/admin' roles={['admin']} component={AdminPage} />
+       
 
         {/* <Route path='*'>
           <HomePage></HomePage>

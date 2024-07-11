@@ -41,9 +41,19 @@ export default function Payment() {
     const OrderPaid = {
       ...order,
       status: "pendding",
-      paymentMethod: "payLater",
+      method: "PAYLATER",
     };
-
+    console.log('pay later', OrderPaid);
+    await dispatch(createOrder(OrderPaid))
+    history.push("/orderSuccess");
+  };
+  const SendOrderPayOnline = async () => {
+    const OrderPaid = {
+      ...order,
+      status: "pendding",
+      method: "VNPAY",
+    };
+    console.log('pay later', OrderPaid);
     await dispatch(createOrder(OrderPaid))
     history.push("/orderSuccess");
   };
@@ -95,12 +105,7 @@ export default function Payment() {
         <button type="submit" className="paypal">
           
           <VnPay></VnPay>
-          <PayPalButton
-            className="paypal-btn"
-            style={{ color: "white", marginTop: '1rem' }}
-            amount={1}
-            onSuccess={successPaymentHandler}
-          ></PayPalButton>
+          
         </button>
       ) : (
         ""

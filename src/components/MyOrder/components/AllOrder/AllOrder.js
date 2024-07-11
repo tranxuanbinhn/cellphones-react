@@ -10,17 +10,17 @@ const orderItem = (item) => (
       <img src={item.image}></img>
     </div>
     <div className="all-myorder-item-name">
-      <p>{item.name}</p>
-      <span>x{item.qty}</span>
+      <p>{item.productName}</p>
+      <span>x{item.quantity}</span>
     </div>
-    <div className="all-myorder-item-price">{formatPrice(item.salePrice)}</div>
+    <div className="all-myorder-item-price">{formatPrice(item.unitPrice)}</div>
   </div>
 );
 
 export const orderParent = (item) => (
   <div className="all-myorder-parent-item">
     <div className="all-myorder-list">
-      {item.orderItems.map((item) => orderItem(item))}
+      {item.orderDetailDTOS.map((item) => orderItem(item))}
     </div>
     <div className="all-myorder-item-totalprice">
       <div>
@@ -32,11 +32,12 @@ export const orderParent = (item) => (
 
 function AllOrder(props) {
   const dispatch = useDispatch();
-  const { myOrders } = useSelector((state) => state.orderByUser);
+  const  {myOrders}  = useSelector((state) => state.orderByUser);
+  console.log('myorder', myOrders);
   
   const { userInfo } = useSelector((state) => state.userSignin);
   useEffect(() => {
-    dispatch(getOrderByUser(userInfo._id));
+    dispatch(getOrderByUser());
   }, []);
 
   return (
