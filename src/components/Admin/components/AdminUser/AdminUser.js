@@ -12,8 +12,8 @@ function AdminUser(props) {
     const users = useSelector(state => state.users.user);
     const page = useSelector(state => state.users.currentPage);
 
-    console.log('user',users);
-    const {listResult} = users;
+
+    const {listResult} = users || [];
 
     useEffect(() => {
         dispatch(getAllUser(page))

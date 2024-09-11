@@ -2,10 +2,11 @@ import axios from 'axios'
 
 export const login = (user) => async (dispatch) => {
     try {
+      console.log('user',user)
 
       const {data} = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/auth/signin`, user);
       dispatch({ type: 'USER_LOGIN_SUCCESS', payload: data });
-      console.log('user', data);
+    
       localStorage.setItem('userInfo', JSON.stringify(data));
       localStorage.setItem('accessToken', data.accessToken);
       localStorage.setItem('typeToken', data.typeToken);
@@ -126,6 +127,7 @@ export const CheckTokenExp = () => async(dispatch)=>
 export const SignupUser = (user) => async (dispatch) => {
  
   axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/auth/signup`, user).then(res=>{
+    console.log('res',res);
     dispatch({type:"MESSAGE_SUCCESS",payload:"SUCCESS"})
     window.location.href='/login';
   }).catch(error=>{

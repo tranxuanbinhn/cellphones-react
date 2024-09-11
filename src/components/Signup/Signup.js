@@ -10,25 +10,24 @@ function Login(props) {
     const [password, setPassword] = useState('');
     const [alert, setAlert] = useState();
    const message = useSelector(state => state.message);
-    const {success,error} = message || null;
+    //const {success,error} = message;
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
   
-
+    console.log('message', message);
     useEffect(()=>{
-      if(success!= undefined)
+      if(message?.success!= undefined)
       {
-        setAlert(success)
+        setAlert(message?.success)
       }
-      else if(error!= undefined){
-        setAlert(error)
+      else if(message?.error!= undefined){
+        setAlert(message?.error)
       }
       return setAlert()
     },[])
     const onSubmit = (data) => {
       //console.log(data);
       dispatch(SignupUser(data));
-      
-      console.log('userInfo',success);
+
       //console.log('userInfo',error);
 
 

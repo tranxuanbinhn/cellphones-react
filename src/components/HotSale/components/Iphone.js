@@ -29,7 +29,7 @@ function CategorHotProduct(props) {
         {
             ListCategory.map(category => (
                 <div className="hotsale">
-                <h2><Link to={`/product/${category.categoryCode}`} style={{color:'inherit'}}>{category.categoryName}</Link></h2>
+                <h2><Link to={`/product`} style={{color:'inherit'}}>{category.categoryName}</Link></h2>
                 {
                    <ListProduct CategoryId={category.id}></ListProduct>
                 }
