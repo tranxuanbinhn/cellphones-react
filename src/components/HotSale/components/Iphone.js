@@ -14,7 +14,7 @@ function CategorHotProduct(props) {
         async function FetchApi(){
             try {
                 const {data} = await axios.get('http://localhost:8080/api/user/category');
-                console.log('data',data);
+                 
                 setListCategory(data)
             } catch (error) {
             }

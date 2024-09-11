@@ -1,7 +1,7 @@
 import axios from "axios";
 export const AddToCart = (product,check) => async (dispatch) => {
     
-    console.log('check', product);
+     
     const url = `${process.env.REACT_APP_API_ENDPOINT}/api/user/cart/add`;
     const cart = {
         productId:product.id,
@@ -9,7 +9,7 @@ export const AddToCart = (product,check) => async (dispatch) => {
         add:check
     }
     const token = localStorage.getItem('accessToken');
-    console.log('token is',token);
+     
     const config = {
         headers:{
             Authorization:`Bearer ${token}`,
@@ -17,9 +17,9 @@ export const AddToCart = (product,check) => async (dispatch) => {
         }
     }
     const respone = axios.post(url, cart,config);
-    console.log('product in cart', cart);
+     
     //dispatch({type: 'ADD_TO_CART', payload: product})
-    console.log('respones', respone);
+     
 
 }
 export const AddToCart2 = (product,check) => async (dispatch) => {
@@ -32,7 +32,7 @@ export const AddToCart2 = (product,check) => async (dispatch) => {
         add:check
     }
     const token = localStorage.getItem('accessToken');
-    console.log('token is',token);
+     
     const config = {
         headers:{
             Authorization:`Bearer ${token}`,
@@ -40,9 +40,9 @@ export const AddToCart2 = (product,check) => async (dispatch) => {
         }
     }
     const respone = axios.post(url, cart,config);
-    console.log('product in cart', cart);
+     
     ////dispatch({type: 'ADD_TO_CART', payload: product})
-    //console.log('respones', respone);
+    // 
 
 }
 export const GetAllProductInCart = () =>async (dispatch)=>{
@@ -54,7 +54,7 @@ const config = {
     }
 }
  axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/user/cart/getall`,config).then(response=>{
-    console.log('data cart',response.data);
+     
     const cart = response.data.listResult;
 
 const listproduct = Array.isArray(cart)?cart:[];    
@@ -65,7 +65,7 @@ dispatch({type:'GET_ALL_PRODUCT_CART', payload:listproduct});
     if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
-        console.log('token', error.response.status);
+         
         if(error.response.status === 500){
             const refreshToken = localStorage.getItem('refreshToken');
             const option = {
@@ -85,14 +85,14 @@ dispatch({type:'GET_ALL_PRODUCT_CART', payload:listproduct});
                         dispatch({type:'active'});
                     }
                     else{
-                        console.log('erro')
+                         
                         dispatch({type:'expired'});
                         
                     }
             }).catch(error=>{
                 if(error.response)
                     {
-                        console.log('Error',error.response);
+                         
                         dispatch({type:'expired'});
 
                     }
@@ -100,7 +100,7 @@ dispatch({type:'GET_ALL_PRODUCT_CART', payload:listproduct});
         }   
         }
  })
-//console.log('data cart',data);
+// 
 
 
 
@@ -122,7 +122,7 @@ export const DeleteQtyProduct = (product) => async (dispatch) => {
             'Content-Type':'application/json'
         }
     }
-    console.log('delete product id', product);
+     
     try{
         const respone = axios.request({
             url:`${process.env.REACT_APP_API_ENDPOINT}/api/user/cart/delete`
@@ -134,7 +134,7 @@ export const DeleteQtyProduct = (product) => async (dispatch) => {
     }
     catch(error)
     {
-        console.log(error)
+         
     }
    
 }

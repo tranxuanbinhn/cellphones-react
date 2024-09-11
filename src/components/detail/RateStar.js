@@ -19,14 +19,14 @@ function RateStar(props) {
     const [rate, setRateProduct] = useState({});
     const rateProduct = useSelector(state => state.getProductById.rate)
    
-    console.log("product", productReview);
+     
  
 
-    console.log('rate',rateProduct);
+     
     
 
     let averageRate = rate?.average;
-    console.log('countReview', averageRate);
+     
     
   
 
@@ -50,7 +50,7 @@ if (Array.isArray(product?.listResult)) {
     const [page, setPage] = useState(1);
    
     useEffect(()=>{
-        console.log('do this');
+         
         dispatch(getReviewProduct(id, page));
         dispatch(getRateProduct(id));
         
@@ -61,7 +61,7 @@ if (Array.isArray(product?.listResult)) {
         setRateProduct(rateProduct);
     },[])
     useEffect(()=>{
-        console.log('active');
+         
         return  setProductReview([]);
     },[])
     const goToNextPage = () => {

@@ -8,7 +8,7 @@ function User(props) {
     const {user, number} = props
     const dispatch = useDispatch()
     const history = useHistory(); 
-    console.log('user', user)
+     
     const handleDeleteUser = async (user) => {
     
         await dispatch(deleteUser(user.id))

@@ -13,7 +13,7 @@ function Login(props) {
     //const {success,error} = message;
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
   
-    console.log('message', message);
+     
     useEffect(()=>{
       if(message?.success!= undefined)
       {
@@ -25,10 +25,10 @@ function Login(props) {
       return setAlert()
     },[])
     const onSubmit = (data) => {
-      //console.log(data);
+      // 
       dispatch(SignupUser(data));
 
-      //console.log('userInfo',error);
+      // 
 
 
     };

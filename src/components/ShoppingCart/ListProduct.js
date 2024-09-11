@@ -14,7 +14,7 @@ import {AddToCart,AddToCart2, DeleteToCart, DeleteQtyProduct} from '../../action
 function ListProduct(props) {
     const [productBuy, setProductBuy] = useState({});
     var userInfo = useSelector((state) => state.userSignin.userInfo);
-    console.log('user infor',userInfo);
+     
     const history = useHistory()
     const Order = () => {
         if (userInfo) {
@@ -64,7 +64,7 @@ function handleProductOut(product) {
 }
 
 const { products } = props;
-console.log('product is', products);
+ 
 const totalPrice = products.reduce(
     (total, item) => {
         if(checklistbox[item.productId])
@@ -76,7 +76,7 @@ const totalPrice = products.reduce(
     },
     0
   );
-console.log('list box',products.filter(product=>checklistbox[product.productId]));
+ 
 useEffect(() => {
     // Chỉ cập nhật productBuy khi products hoặc checklistbox thay đổi
     setProductBuy(products.filter(product => checklistbox[product.productId]));

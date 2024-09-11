@@ -1,9 +1,13 @@
 import axios from 'axios'
 
+export const deleteerror = () => async (dispatch) => {
+  dispatch({ type: 'USER_LOGIN_FAIL', payload:null });
+}
+
 export const login = (user) => async (dispatch) => {
     try {
-      console.log('user',user)
 
+       
       const {data} = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/auth/signin`, user);
       dispatch({ type: 'USER_LOGIN_SUCCESS', payload: data });
     
@@ -33,7 +37,7 @@ export const login = (user) => async (dispatch) => {
 };
 export const GetUserDetail = (id) => async(dispatch) =>{
   const token = localStorage.getItem('accessToken');
-  console.log('id', id)
+   
   try
   {
   
@@ -42,12 +46,12 @@ export const GetUserDetail = (id) => async(dispatch) =>{
           Authorization: `Bearer ${token}`
         }
       });
-      console.log('user detail ', data);
+       
       dispatch({type:"GET_USER_DETAIL", payload:data})
   }
   catch(error)
   {
-    console.log(error);
+     
     ;
   }
 }
@@ -61,12 +65,12 @@ export const GetAllRole = () => async(dispatch)=>
               Authorization:`Bearer ${token}`
             }
           });
-          console.log('data role ', data);
+           
           dispatch({type:"GET_ALL_ROLE", payload:data})
       }
       catch(error)
       {
-        console.log(error);
+         
         ;
       }
      
@@ -74,10 +78,10 @@ export const GetAllRole = () => async(dispatch)=>
 export const SaveUser = (user) => async(dispatch)=>{
   const token = localStorage.getItem('accessToken');
   try{
-    console.log('user in', user)
+     
       if(user.id === undefined)
       {
-        console.log('user rrr', user)
+         
         const option = {
           url:`${process.env.REACT_APP_API_ENDPOINT}/api/admin/user`,
           headers:{
@@ -86,14 +90,14 @@ export const SaveUser = (user) => async(dispatch)=>{
           data:user,
           method:'post'
         }
-        console.log('option add', option)
+         
         const {data} = await axios(option)
-        console.log('data add',data);
+         
         dispatch({type:"ADD_USER", payload:data})
       
       }
       else{
-        console.log('user rrr', user)
+         
         const option = {
           url:`${process.env.REACT_APP_API_ENDPOINT}/api/admin/user/update/${user.id}`,
           headers:{
@@ -102,15 +106,15 @@ export const SaveUser = (user) => async(dispatch)=>{
           data:user,
           method:'put'
         }
-        console.log('option', option)
+         
         const data = await axios(option)
-        console.log('data update',data);
+         
         dispatch({type:"UPDATE_USER", payload:data})
       }
   }
   catch(error)
   {
-      console.log(error)
+       
   }
 }
 export const CheckTokenExp = () => async(dispatch)=>
@@ -127,7 +131,7 @@ export const CheckTokenExp = () => async(dispatch)=>
 export const SignupUser = (user) => async (dispatch) => {
  
   axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/auth/signup`, user).then(res=>{
-    console.log('res',res);
+     
     dispatch({type:"MESSAGE_SUCCESS",payload:"SUCCESS"})
     window.location.href='/login';
   }).catch(error=>{
@@ -146,7 +150,7 @@ export const SignoutUser = () => async (dispatch) => {
   localStorage.removeItem("refreshToken");
 
   dispatch({type: 'USER_LOGOUT'})
-  console.log('Delete is actving');
+   
   dispatch({type:'DELETE_WHEN_LOGOUT'})
   document.location.href = '/login';
 };
@@ -159,7 +163,7 @@ export const getAllUser = (page) => async (dispatch, getState) => {
         Authorization: `Bearer ${token}`
       }
     });
-    console.log('Error fetching data:', data);
+     
     dispatch({type: 'GET_ALL_USER',payload:data});
   
     // Thêm dòng throw nếu cần
@@ -167,7 +171,7 @@ export const getAllUser = (page) => async (dispatch, getState) => {
       throw new Error('No data received from API');
     }
   } catch (error) {
-    console.log('Error fetching data:', error.message);
+     
     // Xử lý lỗi tại đây nếu cần
   }
  
@@ -177,7 +181,7 @@ export const editCurrentPage = (page) => async (dispatch) => {
 }
 export const resetPasswordUser = (user) => async (dispatch) => {
   const token = localStorage.getItem('accessToken');
-  console.log('user', user);
+   
   try {
     const option = {
       url:`${process.env.REACT_APP_API_ENDPOINT}/api/admin/user/resetpassword`,
@@ -190,11 +194,11 @@ export const resetPasswordUser = (user) => async (dispatch) => {
       method:'put'
     }
     const data  = await axios(option);
-    console.log('data',data);
+     
   }
     catch(error)
     {
-      console.log(error)
+       
     }
 }
 export const deleteUser = (userId) => async (dispatch, getState) => {
@@ -210,10 +214,10 @@ export const deleteUser = (userId) => async (dispatch, getState) => {
       }
     );
    
-    console.log('response',data);
+     
     dispatch({type: 'DELETE_USER', payload:data});
   } catch (error) {
-    console.log('errrorr',error)
+     
     dispatch({type: 'DELETE_USER_FAIL', error: error.message})
   }
 }

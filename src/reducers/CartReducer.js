@@ -23,9 +23,9 @@ export const CartReducer = (state = {cartItems: [],cartBuy:[]}, action) => {
             
         case 'GET_ALL_PRODUCT_CART':{
             let newList = action.payload;
-            console.log('newList is',newList);
+             
             state.cartItems =[];
-            console.log('cartItems emtpy',state.cartItems)
+             
             return {
                 ...state,
                 cartItems:newList
@@ -57,7 +57,7 @@ export const CartReducer = (state = {cartItems: [],cartBuy:[]}, action) => {
             };
         }
         case 'DELETE_WHEN_LOGOUT':{
-            console.log('delete when logout')
+             
             return {
                 ...state,
                 cartItems:undefined

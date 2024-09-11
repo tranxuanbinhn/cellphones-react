@@ -43,7 +43,7 @@ export default function Payment() {
       status: "pendding",
       method: "PAYLATER",
     };
-    console.log('pay later', OrderPaid);
+     
     await dispatch(createOrder(OrderPaid))
     history.push("/orderSuccess");
   };
@@ -53,7 +53,7 @@ export default function Payment() {
       status: "pendding",
       method: "VNPAY",
     };
-    console.log('pay later', OrderPaid);
+     
     await dispatch(createOrder(OrderPaid))
     history.push("/orderSuccess");
   };

@@ -11,7 +11,7 @@ export const getAllSelectList = () => async (dispatch) => {
                 }
             }
             )
-        console.log('category notnull',data);
+         
         dispatch({type: 'GET_ALL_SELECT_LIST', payload: data?.listResult})
     } catch (error) {
     }
@@ -29,10 +29,10 @@ export const getAllBrand = () => async (dispatch) => {
                 }
             }
             )
-        console.log('dataakjd',data);
+         
         dispatch({type: 'GET_ALL_BRAND', payload: data?.listResult})
     } catch (error) {
-        console.log('error', error);
+         
     }
 }
 

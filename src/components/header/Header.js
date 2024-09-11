@@ -18,7 +18,7 @@ function Header(props) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  console.log('is Admin ', !isAdmin);
+   
 
   const [showAccount, setShowAccount] = useState(false);
   const [showAccount2, setShowAccount2] = useState(false);
@@ -29,7 +29,7 @@ function Header(props) {
   
   const [search, setSearch] = useState("");
   const checkUser = () =>{
-    console.log('token value ', userSignin);
+     
     if(userInfo?.roles[0]==='ROLE_ADMIN')
       {
        history.push('/admin');
@@ -37,7 +37,7 @@ function Header(props) {
   }
   useEffect(()=>
     {
-      console.log('Do')
+       
       dispatch(GetAllProductInCart());
     },[])
     //useEffect(()=>{

@@ -25,7 +25,7 @@ function ResultOrder(props){
               'Content-Type':'application/json'
         }
       }
-      console.log('option is', options);
+       
       
       const object = await axios(options);
       if(object.status === 200)
@@ -36,18 +36,18 @@ function ResultOrder(props){
             paymentMethod: "VNPAY"
          
           };
-          console.log('order...', order);
+           
 
-          console.log('order paid', OrderPaid);
+           
           await dispatch(createOrder(OrderPaid));
         }
         else{
           setResult(false)
         }
       const data = object.data;
-      console.log('object', object);
+       
 
-      console.log('data ',data);
+       
       if(data.vnp_ResponseCode === "00")
         {
           setResult(true)
@@ -60,7 +60,7 @@ function ResultOrder(props){
 
     getResultVNPay();
   }, []);
-  console.log('result', result);
+   
     return (
         <section id="order-success">
       <div className="order-success">

@@ -25,9 +25,9 @@ export const createOrder = (order) => async (dispatch, getState) => {
             'Content-Type':'application/json'
       }
     }
-    console.log('option is', options);
+     
     const { data } = await axios(options);
-    console.log('data order llll',data);
+     
    const data2 = {
     method:order.method,
     status:order.status,
@@ -42,10 +42,10 @@ export const createOrder = (order) => async (dispatch, getState) => {
           'Content-Type':'application/json'
     }
   }
-  console.log('option2', option2);
+   
 
   const result2 = await axios(option2);
-  console.log('result2', result2);
+   
 
   //Delete order in cart
 
@@ -63,11 +63,11 @@ export const createOrder = (order) => async (dispatch, getState) => {
             header:config.headers,
             data:order.cartproductIds
         });
-        console.log('respone10', respone)
+         
     }
     catch(error)
     {
-        console.log(error)
+         
     }
 
 
@@ -117,7 +117,7 @@ export const getAllOrder = () => async (dispatch, getState) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log('data order', data);
+     
     dispatch({ type: "GET_ALL_ORDER", payload: data });
   } catch (error) {
   }
@@ -255,7 +255,7 @@ export const GetAllProvince = () => async (dispatch, getState) => {
       `https://online-gateway.ghn.vn/shiip/public-api/master-data/province`,
       config
     );
-    console.log('data province', data)
+     
     dispatch({ type: "GET_ALL_PROVINCE", payload: data });
   } catch (error) {
   }
@@ -291,7 +291,7 @@ export const GetAllDistrict = (provinceId) => async (dispatch, getState) => {
     province_id: provinceId
   }
   try {
-    console.log('data district', province);
+     
     const options = {
       method:'post',
       url: `https://online-gateway.ghn.vn/shiip/public-api/master-data/district`,
@@ -300,14 +300,14 @@ export const GetAllDistrict = (provinceId) => async (dispatch, getState) => {
         'Token': "f0ad61a5-e456-11ee-aebc-56bc015a6b03",}
     }
     const { data } = await axios(options);
-    console.log('data district', data);
+     
     dispatch({ type: "GET_ALL_DISTRICT", payload: data });
   } catch (error) {
   }
 };
 
 export const GetAllWard = (districtId) => async (dispatch, getState) => {
-  console.log('districtId', districtId)
+   
   const newConfig = {
     headers: {
       Token: "f0ad61a5-e456-11ee-aebc-56bc015a6b03"
@@ -328,7 +328,7 @@ export const GetAllWard = (districtId) => async (dispatch, getState) => {
   try {
 
     const { data } = await axios(options)
-    console.log('data ward', data);
+     
     dispatch({ type: "GET_ALL_WARD", payload: data });
   } catch (error) {
   }
@@ -418,6 +418,6 @@ export const payOrder = (order, paymentResult) => async (dispatch, getState) => 
 };
 
 export const OrderInfo = (orderInfo) => async (dispatch, getState) => {
-  console.log('orderInfo', orderInfo);
+   
   dispatch({ type: "ORDER_INFO", payload: orderInfo });
 };

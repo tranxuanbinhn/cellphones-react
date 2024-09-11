@@ -8,7 +8,7 @@ function ListProduct(props) {
         async function FetchApi(){
             try {
                 const {data} = await axios.get(`http://localhost:8080/api/user/product?categoryId=${Category}`);
-                console.log('data',data);
+                 
                 setListProduct(data)
             } catch (error) {
             }

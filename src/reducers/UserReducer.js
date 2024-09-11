@@ -27,7 +27,7 @@ export const UserSignoutReducer = (state = {}, action) => {
     switch (action.type) {
         case 'USER_SIGNOUT_SUCCESS':
             {
-                console.log('actionpayload', action.payload)
+                 
                 return {...state,userInfo:action.payload };
             }
             

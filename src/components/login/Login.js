@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './Login.css'
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from 'react-redux';
-import {login} from '../../actions/UserAction'
+import {deleteerror, login} from '../../actions/UserAction'
 import { useHistory } from 'react-router';
 import {Link} from 'react-router-dom'
 
@@ -18,12 +18,13 @@ function Login(props) {
 
   const user = useSelector((state) => state.userSignin);
   const { userInfo, error } = user;
-
+   
   const onSubmit = (data) => {
     dispatch(login(data));
   };
 
   useEffect(() => {
+    dispatch(deleteerror())
     if (userInfo && localStorage.getItem('role')==="user") {
      
       history.push("/");
@@ -32,7 +33,7 @@ function Login(props) {
     {
       history.push("/admin");
     }
-  });
+  },[]);
 
   return (
     <div class="login-page">
