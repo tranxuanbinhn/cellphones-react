@@ -48,9 +48,9 @@ function Header(props) {
     //    }
     //}, [])
   const cartItems = useSelector((state) => state.cart.cartItems);
-  console.log('cartItems nes is',userInfo);
+
   const amount = cartItems? cartItems.reduce((a, b) => a + b.quantity, 0):0;
-  console.log('localStorage', localStorage);
+
 
   const [menu, setMenu] = useState(true);
 

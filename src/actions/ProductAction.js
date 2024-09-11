@@ -27,18 +27,18 @@ export const getAllProductByCategoryCode = (page, dir) => async (dispatch) => {
     let url = undefined;
     if(dir==undefined)
       {
-        url  = `${process.env.REACT_APP_API_ENDPOINT}/api/user/product/getallproductbycategory?categorycode=lap-top&page=${page}&limit=2`;
+        url  = `${process.env.REACT_APP_API_ENDPOINT}/api/user/product/getall?&page=${page}&limit=5`;
       }
       else{
         if(dir === 'asc')
           {
-        url = `${process.env.REACT_APP_API_ENDPOINT}/api/user/product/fillterproduct?categorycode=lap-top&page=${page}&limit=2&orderby=price&dir=0`;
+        url = `${process.env.REACT_APP_API_ENDPOINT}/api/user/product/fillterall?page=${page}&limit=5&orderby=price&dir=0`;
 
           }
           else if(dir === 'desc')
             {
               
-        url = `${process.env.REACT_APP_API_ENDPOINT}/api/user/product/fillterproduct?categorycode=lap-top&page=${page}&limit=2&orderby=price&dir=1`;
+        url = `${process.env.REACT_APP_API_ENDPOINT}/api/user/product/fillterall?page=${page}&limit=5&orderby=price&dir=1`;
 
             }
       }

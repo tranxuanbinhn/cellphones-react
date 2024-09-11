@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
+import './AdminCreate.css'
 
 import {
   editCurrentPage,
@@ -171,19 +172,20 @@ function AdminCreate(props) {
           ></input>
           
          
+          <div className="select-type">
+  {SelectList && SelectList.length > 0 ? (
+    <select {...register('categoryName')} defaultValue={SelectList[0]?.categoryName}>
+      {SelectList.map((item) => (
+        <option key={item.categoryName} value={item.categoryName}>
+          {item.categoryName}
+        </option>
+      ))}
+    </select>
+  ) : (
+    <option disabled>No categories available</option>
+  )}
+</div>
 
-          {SelectList && SelectList.length > 0
-            ? SelectList.map((item) => (
-                <div className="select-type">
-                  <select
-                    {...register('categoryName')}
-                    defaultValue={SelectList[0]?.categoryName}
-                  >
-                   <option value={item.categoryName}>{item.categoryName}</option>
-                  </select>
-                </div>
-              ))
-            : ""}
               {Brands && Brands.length > 0
             ? Brands.map((item) => (
                 <div className="select-type">
