@@ -10,10 +10,10 @@ function Login(props) {
     const [password, setPassword] = useState('');
     const [alert, setAlert] = useState();
    const message = useSelector(state => state.message);
-    const {success,error} = message;
+    const {success,error} = message || null;
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
   
-    console.log('message', message);
+
     useEffect(()=>{
       if(success!= undefined)
       {
