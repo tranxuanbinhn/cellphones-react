@@ -22,9 +22,12 @@ function Login(props) {
   const onSubmit = (data) => {
     dispatch(login(data));
   };
-
-  useEffect(() => {
+  
+  useEffect(()=> {
     dispatch(deleteerror())
+  },[])
+  useEffect(() => {
+
     if (userInfo && localStorage.getItem('role')==="user") {
      
       history.push("/");
@@ -33,7 +36,7 @@ function Login(props) {
     {
       history.push("/admin");
     }
-  },[]);
+  });
 
   return (
     <div class="login-page">
