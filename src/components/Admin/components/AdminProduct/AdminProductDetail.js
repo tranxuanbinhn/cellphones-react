@@ -21,9 +21,9 @@ function AdminProductDetail(props) {
   const Brands = useSelector((state) => state.selectList.Brand);
   const [activeTypeProduct, setActiveTypeproduct] = useState(undefined);
   const { List } = useSelector((state) => state.allTypeProduct);
-  console.log('detailProduct',detailProduct);
-  console.log('SelectList',SelectList);
-  console.log('Brand',Brands);
+   
+   
+   
 
 
   useEffect(() => {
@@ -49,7 +49,7 @@ function AdminProductDetail(props) {
   const onSubmit = async (data) => {
    
     data.image = image;
-    console.log('image', image)
+     
     await dispatch(saveProduct(data));
     history.push("/admin/product");
   };

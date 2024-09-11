@@ -21,9 +21,9 @@ function AdminUpdate(props) {
   const Brands = useSelector((state) => state.selectList.Brand);
   const [activeTypeProduct, setActiveTypeproduct] = useState(undefined);
   const { List } = useSelector((state) => state.allTypeProduct);
-  console.log('detailProduct',detailProduct);
-  console.log('SelectList',SelectList);
-  console.log('Brand',Brands);
+   
+   
+   
 
 
   useEffect(() => {
@@ -47,7 +47,7 @@ function AdminUpdate(props) {
   };
 
   const onSubmit = async (data) => {
-   console.log('dataa', data)
+    
     const formData = new FormData();
     formData.append('productName', data.productName);
     formData.append('description', data.description);
@@ -68,7 +68,7 @@ function AdminUpdate(props) {
     formData.append('brandName',data.brandName);
     formData.append('categoryName',data.categoryName);
     formData.forEach((value, key) => {
-      console.log(key, value);
+       
     });
     await dispatch(saveProduct(formData));
     history.push("/admin/product");

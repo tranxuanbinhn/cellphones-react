@@ -4,7 +4,7 @@ import Product from './Product'
 
 function ListProduct(props) {
     const {HotSaleProducts} = props;
-    console.log('HotSaleProducts',HotSaleProducts)
+     
     
 
     return (

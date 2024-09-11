@@ -9,7 +9,7 @@ function ListUser(props) {
     const usersList = users?.listResult;
     const currentPage = useSelector(state=>state.users.currentPage);
     const HandleChangePage = async (number) => {
-        console.log('number', number)
+         
         await dispatch(getAllUser(number))
         dispatch(editCurrentPage(number))
     }

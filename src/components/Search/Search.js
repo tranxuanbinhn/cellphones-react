@@ -12,7 +12,7 @@ function Search(props) {
     const [prevSearchTerm, setPrevSearchTerm] = useState('');
   
     const productSearch = useSelector(state => state.searchProduct.products);
-    console.log('searchProduct', productSearch);
+     
     const [page, setPage] = useState(1);
     const goToNextPage = () => {
         setPage(page + 1);
@@ -22,7 +22,7 @@ function Search(props) {
 
     
     const [listProduct, setListProduct] = useState([]);
-    console.log('check',Array.isArray(productSearch?.listResult));
+     
     useEffect(()=>{
         
         if (searchTerm !== productSearch?.name) {
@@ -34,8 +34,8 @@ function Search(props) {
             // Reset page về 1 khi có sự thay đổi trong tìm kiếm
            
         }
-        console.log('searchTerm', searchTerm);
-        console.log('prevSearchTerm', prevSearchTerm);
+         
+         
 
         if (Array.isArray(productSearch?.listResult)) {
           
@@ -47,7 +47,7 @@ function Search(props) {
         // Cập nhật listProduct khi searchProduct.listResult thay đổi
         dispatch(searchProduct(productSearch?.name, page));
     }, [page]);
-    console.log('listProduct', listProduct);
+     
     return (
         <section id="hotsale iphone">
             <div className="hotsale">

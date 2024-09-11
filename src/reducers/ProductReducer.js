@@ -10,11 +10,11 @@ export const getAllProductReducer = (state = initialState, action) => {
            {
 
             //let currentProducts = Array.isArray(state.product.listResult) ? state.product.listResult : [];
-            //console.log('current product', currentProducts);
+            // 
             //////products = products.concat(action.payload.listResult);
-            ////console.log('new list', products);
+            //// 
             //let payloadListResult = Array.isArray(action.payload.listResult) ? action.payload.listResult : [];
-            //console.log('payloadListResult',payloadListResult);
+            // 
             //if(action.payload.page === 1)
             //{
             //    currentProducts = [];
@@ -24,11 +24,11 @@ export const getAllProductReducer = (state = initialState, action) => {
   
          
            
-            //console.log('update product',  action.payload);
+            // 
             
             //action.payload.listResult = updatedProducts;
 
-            //console.log('hello', updatedProducts);
+            // 
             return {...state, product: action.payload}
            }
         case 'GET_ALL_REVIEW_PRODUCT':{
@@ -65,11 +65,11 @@ export const getAllProductReducer = (state = initialState, action) => {
         case 'FILTER_PRODUCT_BY_PRICE':{
            
             //let currentProducts = Array.isArray(state.product.listResult) ? state.product.listResult : [];
-            //console.log('current product', currentProducts);
+            // 
             
             //let payloadListResult = Array.isArray(action.payload.listResult) ? action.payload.listResult : [];
             //let updatedProducts  = currentProducts.concat(payloadListResult);
-            //console.log('update product',  action.payload);
+            // 
             //action.payload.listResult = updatedProducts;
             return {...state, product: action.payload}
         }

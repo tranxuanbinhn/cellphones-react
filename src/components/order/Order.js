@@ -21,11 +21,11 @@ function Order(props) {
   const allProvince = useSelector((state) => state.address.province);
   const allDistrict = useSelector((state) => state.address.district);
   const shippm = useSelector((state) => state.address.fee);
-  console.log('shippm',shippm?.data.total);
+   
 
   const allWard = useSelector((state) => state.address.ward);
   const productCart = useSelector((state) => state.cart.cartBuy);
-  console.log('product cart', productCart);
+   
 
   const [listProvince, setListProvince] = useState(false);
   const [listDistrict, setListDistrict] = useState(false);
@@ -54,7 +54,7 @@ function Order(props) {
     (total, item) => total + item.quantity * item.price,
     0
   );
-  console.log('totalPrice', totalPrice);
+   
   const userInfo = useSelector((state) => state.userSignin.userInfo);
   const getCartProductId = productCart.map((product)=> {
     return product.cartProductId;
@@ -120,7 +120,7 @@ function Order(props) {
     setChooseWard({name, id});
     setListWard(!listWard);
   };
-  console.log('a', totalPrice+shippm?.data.total)
+   
   return (
     <section id="order">
        <div className='list-product'>

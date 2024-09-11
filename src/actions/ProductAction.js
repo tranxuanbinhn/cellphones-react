@@ -42,10 +42,10 @@ export const getAllProductByCategoryCode = (page, dir) => async (dispatch) => {
 
             }
       }
-    console.log('check url', url);
+     
     const { data } = await axios.get(url);
-    console.log('data all page', data);
-    console.log('number page', page);
+     
+     
     
     dispatch({ type: "GET_ALL_PRODUCT", payload: data });
   } catch (error) {
@@ -66,8 +66,8 @@ export const deleteAllProductInStore = () => async (dispatch) => {
 export const ascendingProduct = (page) => async (dispatch) => {
   try {
     const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/user/product/fillterproduct?categorycode=lap-top&page=1&limit=2&orderby=price&dir=0`);
-    console.log('data asc', data);
-    console.log('number page', page);
+     
+     
     const asc = {
       name:'asc',
       ...data
@@ -81,8 +81,8 @@ export const ascendingProduct = (page) => async (dispatch) => {
 export const descendingProduct = (page) => async (dispatch) => {
   try {
     const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/user/product/getallproductbycategory?categorycode=lap-top&page=${page}&limit=2&orderby=price&dir=1`);
-    console.log('data desc', data);
-    console.log('number page', page);
+     
+     
     const desceending = {
       name:'desc',
       ...data
@@ -125,7 +125,7 @@ export const paginationProduct = (page) => async (dispatch) => {
       
     }
     const {data} = await axios(request);
-    console.log('data is ',data);
+     
     dispatch({ type: "PAGINATION_PRODUCT", payload: data });
   } catch (error) {
   }
@@ -143,13 +143,13 @@ export const deleteReview = (id) => async (dispatch) => {
   }
   catch(error)
   {
-    console.log(error)
+     
   }
 }
 export const getallreviewProduct = (id) => async (dispatch) => {
   try {
    
-    console.log('id',id);
+     
     const token = localStorage.getItem('accessToken');
     const { data } = await axios.get(
       `${process.env.REACT_APP_API_ENDPOINT}/api/admin/review?page=1&limit=2&id=${id}`,{
@@ -158,7 +158,7 @@ export const getallreviewProduct = (id) => async (dispatch) => {
         }
       }
     );
-    console.log('data', data);
+     
     dispatch({ type: "GET_ALL_REVIEW_PRODUCT", payload: data });
   } catch (error) {
     dispatch({ type: "GET_ALL_REVIEW_PRODUCT_FAIL", payload: error.message });
@@ -167,7 +167,7 @@ export const getallreviewProduct = (id) => async (dispatch) => {
 export const getproductById = (id) => async (dispatch) => {
   try {
    
-    console.log('id',id);
+     
     const { data } = await axios.get(
       `${process.env.REACT_APP_API_ENDPOINT}/api/user/product/detail/${id}`
     );
@@ -184,9 +184,9 @@ export const removeProductById = (id) => async (dispatch) => {
 export const saveProduct = (product) => async (dispatch, getState) => {
   
   try {
-   console.log('id product', product)
+    
 
-   console.log('id gettttt', product.get('id'))
+    
     const token = localStorage.getItem('accessToken');
     const {
       userSignin: { userInfo },
@@ -206,8 +206,8 @@ export const saveProduct = (product) => async (dispatch, getState) => {
       dispatch({ type: "SAVE_PRODUCT", payload: data });
       // document.location.href = '/admin/product';
     } else {
-      console.log('do thissssssss');
-      console.log('data', product);
+       
+       
       const id = product.get("id");
       product.delete('id');
       const { data } = await axios.put(
@@ -220,12 +220,12 @@ export const saveProduct = (product) => async (dispatch, getState) => {
           },
         }
       );
-      console.log('update', data)
+       
       dispatch({ type: "SAVE_PRODUCT", payload: data });
       // document.location.href = '/admin/product';
     }
   } catch (error) {
-    console.log('error', error)
+     
     dispatch({ type: "SAVE_PRODUCT_FAIL", payload: error.message });
   }
 };
@@ -259,7 +259,7 @@ export const searchProduct = (name, page) => async (dispatch, getState) => {
       name: name,
       ...data
     }
-    console.log('search data',searchData);
+     
 
     dispatch({ type: "SEARCH_PRODUCT", payload: searchData });
   } catch (error) {
@@ -278,10 +278,10 @@ export const reviewProduct = (review) => async (dispatch, getState) => {
       }, 
       data:review
     }
-    console.log('request', request);
+     
 
     const { data } = await axios(request);
-    console.log('data post review',data);
+     
     
   } catch (error) {
     dispatch({ type: "REVIEW_PRODUCT_FAIL", payload: error });
@@ -290,7 +290,7 @@ export const reviewProduct = (review) => async (dispatch, getState) => {
 
 export const getReviewProduct = (id, page) => async (dispatch, getState) => {
   try {    
-    console.log('do this ai');
+     
     const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/user/review?page=${page}&limit=2&id=${id}`);
     dispatch({ type: "REVIEW_PRODUCT", payload: data });
   } catch (error) {
@@ -300,7 +300,7 @@ export const getReviewProduct = (id, page) => async (dispatch, getState) => {
 export const getRateProduct = (id) => async (dispatch) => {
   try{
      const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/user/review/getrate?id=${id}`);
-     console.log('rateaaa',data);
+      
     dispatch({ type: "GET_RATE", payload: data });
   }
   catch(error)

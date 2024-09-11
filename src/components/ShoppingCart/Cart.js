@@ -14,14 +14,14 @@ function Cart(props) {
   const dispatch = useDispatch();
   
     const cartItems = useSelector((state) => state.cart.cartItems);
-    console.log('cart items', cartItems);
+     
     
  
 
    
    useEffect(()=>
   {
-    console.log('Do')
+     
     dispatch(GetAllProductInCart());
   },[])
     

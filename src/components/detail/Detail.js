@@ -14,7 +14,7 @@ function Detail(props) {
     const dispatch = useDispatch()
     const { id } = useParams();
     const detailProduct = useSelector(state => state.getProductById.product);
-    console.log('detail product', detailProduct);
+     
    
 
 

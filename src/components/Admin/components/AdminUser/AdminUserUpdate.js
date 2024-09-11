@@ -20,7 +20,7 @@ function AdminUserUpdate(props) {
   let pages = useSelector((state)=> state.users.currentPage);
   const  roles  = useSelector((state) => state.users.roles);
   const  userdetail  = useSelector((state) => state.users.userdetail);
-  console.log('role ', roles);
+   
 
   const { List } = useSelector((state) => state.allTypeProduct);
 

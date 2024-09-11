@@ -18,8 +18,8 @@ export default function ReviewProduct() {
   const editorRef = useRef(null);
 
   const reviews = useSelector((state) => state.allProduct.allreviews);
-  console.log('all review', reviews);
-  console.log('all result', reviews?.listResult);
+   
+   
   const handleDeleteProduct = (id) => {
     dispatch(deleteReview(id));
     window.location.reload();

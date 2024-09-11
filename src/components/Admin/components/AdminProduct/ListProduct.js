@@ -11,9 +11,9 @@ function ListProduct(props) {
     const listResult = listProducts?.listResult;
     const currentPage = useSelector(state => state.allProduct.currentPage)
     const {pages} = useSelector(state => state.allProduct.product)
-    console.log('props', listProducts?.totalPage);
+     
     const HandleChangePage = async (number) => {
-        console.log('number', number)
+         
         await dispatch(paginationProduct(number))
         dispatch(editCurrentPage(number))
     }

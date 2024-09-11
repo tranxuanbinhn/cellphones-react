@@ -5,11 +5,11 @@ import { isAdmin } from './untils';
  const  PrivateRoute = ({ component: Component, roles, ...rest }) => (<Route
   {...rest}
   render={(props) => {
-    console.log('Inside render function');
-    console.log('roles:', roles);
-    console.log('isAdmin:', isAdmin());
+     
+     
+     
     if ( !isAdmin()) {
-      console.log('Redirecting to home');
+       
       return <Redirect to="/" />;
     }
     
